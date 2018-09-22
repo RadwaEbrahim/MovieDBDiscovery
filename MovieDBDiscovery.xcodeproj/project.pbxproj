@@ -15,6 +15,9 @@
 		161C4E7F214E8736003EB5A3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 161C4E7D214E8736003EB5A3 /* LaunchScreen.storyboard */; };
 		161C4E8A214E8736003EB5A3 /* MovieDBDiscoveryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161C4E89214E8736003EB5A3 /* MovieDBDiscoveryTests.swift */; };
 		161C4E9E214EEEB0003EB5A3 /* MovieCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161C4E9D214EEEB0003EB5A3 /* MovieCell.swift */; };
+		167C4F1A215121F20001A8A7 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 167C4F19215121F20001A8A7 /* Alamofire.framework */; };
+		167C4F4D2154FD390001A8A7 /* APISession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167C4F4C2154FD390001A8A7 /* APISession.swift */; };
+		167C4F4F215507610001A8A7 /* MoviesRequestHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167C4F4E215507610001A8A7 /* MoviesRequestHandler.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +43,9 @@
 		161C4E89214E8736003EB5A3 /* MovieDBDiscoveryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDBDiscoveryTests.swift; sourceTree = "<group>"; };
 		161C4E8B214E8736003EB5A3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		161C4E9D214EEEB0003EB5A3 /* MovieCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCell.swift; sourceTree = "<group>"; };
+		167C4F19215121F20001A8A7 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
+		167C4F4C2154FD390001A8A7 /* APISession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APISession.swift; sourceTree = "<group>"; };
+		167C4F4E215507610001A8A7 /* MoviesRequestHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesRequestHandler.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +53,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				167C4F1A215121F20001A8A7 /* Alamofire.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -66,6 +73,7 @@
 				161C4E70214E8735003EB5A3 /* MovieDBDiscovery */,
 				161C4E88214E8736003EB5A3 /* MovieDBDiscoveryTests */,
 				161C4E6F214E8735003EB5A3 /* Products */,
+				167C4F18215121F20001A8A7 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -81,6 +89,7 @@
 		161C4E70214E8735003EB5A3 /* MovieDBDiscovery */ = {
 			isa = PBXGroup;
 			children = (
+				167C4F4B2154FBBE0001A8A7 /* service */,
 				161C4E9C214EEE93003EB5A3 /* View */,
 				161C4E71214E8735003EB5A3 /* AppDelegate.swift */,
 				161C4E73214E8735003EB5A3 /* MoviesViewController.swift */,
@@ -108,6 +117,23 @@
 				161C4E9D214EEEB0003EB5A3 /* MovieCell.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		167C4F18215121F20001A8A7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				167C4F19215121F20001A8A7 /* Alamofire.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		167C4F4B2154FBBE0001A8A7 /* service */ = {
+			isa = PBXGroup;
+			children = (
+				167C4F4C2154FD390001A8A7 /* APISession.swift */,
+				167C4F4E215507610001A8A7 /* MoviesRequestHandler.swift */,
+			);
+			path = service;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -211,10 +237,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				167C4F4D2154FD390001A8A7 /* APISession.swift in Sources */,
 				161C4E7A214E8735003EB5A3 /* MovieDBDiscovery.xcdatamodeld in Sources */,
 				161C4E74214E8735003EB5A3 /* MoviesViewController.swift in Sources */,
 				161C4E9E214EEEB0003EB5A3 /* MovieCell.swift in Sources */,
 				161C4E72214E8735003EB5A3 /* AppDelegate.swift in Sources */,
+				167C4F4F215507610001A8A7 /* MoviesRequestHandler.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -376,6 +404,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 7NJ8LY9LXF;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = MovieDBDiscovery/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -394,6 +426,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 7NJ8LY9LXF;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = MovieDBDiscovery/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
