@@ -28,7 +28,11 @@ enum APIEndpoint: String {
     }
 }
 
-public class APISession {
+protocol APISessionProtocol {
+    func getRequest(endpoint: URL, completion: @escaping DataCompletionBlock)
+}
+
+public class APISession: APISessionProtocol {
 
     func getRequest(endpoint: URL, completion: @escaping DataCompletionBlock) {
         Alamofire.request(endpoint,

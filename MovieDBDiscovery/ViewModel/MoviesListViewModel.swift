@@ -11,7 +11,7 @@ import Foundation
 protocol MoviesListViewModelProtocol {
     func loadMoviesList()
     func movieAtIndex(index: Int)-> Movie?
-    func moviesCount() -> Int
+    var moviesCount: Int { get }
 }
 
 protocol MoviesViewModelDelegate {
@@ -20,6 +20,8 @@ protocol MoviesViewModelDelegate {
 }
 
 class MoviesListViewModel: MoviesListViewModelProtocol {
+
+
     private var moviesList: [Movie]?
     private var service: MoviesRequestHandler
     private var delegate: MoviesViewModelDelegate?
@@ -30,12 +32,12 @@ class MoviesListViewModel: MoviesListViewModelProtocol {
         self.loadMoviesList()
     }
 
-    func movieAtIndex(index: Int) -> Movie? {
-        return moviesList?[index] ?? nil
+    var moviesCount: Int {
+        return moviesList?.count ?? 0
     }
 
-    func moviesCount() -> Int {
-        return moviesList?.count ?? 0
+    func movieAtIndex(index: Int) -> Movie? {
+        return moviesList?[index] ?? nil
     }
 
     func loadMoviesList(){
