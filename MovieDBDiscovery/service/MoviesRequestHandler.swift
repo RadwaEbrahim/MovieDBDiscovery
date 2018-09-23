@@ -8,7 +8,7 @@
 
 import Foundation
 
-typealias MoviesListCompletionHandler = (Any?, Error?) -> Void //TODO: return list of movies instead
+typealias MoviesListCompletionHandler = ([Movie]?, Error?) -> Void 
 
 class MoviesRequestHandler {
     func getPopularMovies(completion: @escaping MoviesListCompletionHandler){
@@ -17,10 +17,14 @@ class MoviesRequestHandler {
                 completion(nil, error)
                 return
             }
-            guard let json = json else {
+            guard let json = json as? [String: Any],
+            let results = json["results"] as? [[String: Any]] else {
                 completion(nil, nil)
                 return
             }
+            let moviesList = results.compactMap { Movie(from: $0) }
+
+            completion(moviesList, nil)
             //TODO: Read/write from DB, and return array of model objects
         }
 

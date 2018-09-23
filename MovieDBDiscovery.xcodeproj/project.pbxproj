@@ -18,6 +18,9 @@
 		167C4F1A215121F20001A8A7 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 167C4F19215121F20001A8A7 /* Alamofire.framework */; };
 		167C4F4D2154FD390001A8A7 /* APISession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167C4F4C2154FD390001A8A7 /* APISession.swift */; };
 		167C4F4F215507610001A8A7 /* MoviesRequestHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167C4F4E215507610001A8A7 /* MoviesRequestHandler.swift */; };
+		167C4F53215654380001A8A7 /* MoviesListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167C4F52215654380001A8A7 /* MoviesListViewModel.swift */; };
+		167C4F55215654460001A8A7 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167C4F54215654460001A8A7 /* Movie.swift */; };
+		167C4F582157BB550001A8A7 /* MovieViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167C4F572157BB550001A8A7 /* MovieViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +49,9 @@
 		167C4F19215121F20001A8A7 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 		167C4F4C2154FD390001A8A7 /* APISession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APISession.swift; sourceTree = "<group>"; };
 		167C4F4E215507610001A8A7 /* MoviesRequestHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesRequestHandler.swift; sourceTree = "<group>"; };
+		167C4F52215654380001A8A7 /* MoviesListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesListViewModel.swift; sourceTree = "<group>"; };
+		167C4F54215654460001A8A7 /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
+		167C4F572157BB550001A8A7 /* MovieViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,10 +95,11 @@
 		161C4E70214E8735003EB5A3 /* MovieDBDiscovery */ = {
 			isa = PBXGroup;
 			children = (
+				167C4F512156541E0001A8A7 /* Model */,
+				167C4F50215653E80001A8A7 /* ViewModel */,
 				167C4F4B2154FBBE0001A8A7 /* service */,
 				161C4E9C214EEE93003EB5A3 /* View */,
 				161C4E71214E8735003EB5A3 /* AppDelegate.swift */,
-				161C4E73214E8735003EB5A3 /* MoviesViewController.swift */,
 				161C4E75214E8735003EB5A3 /* Main.storyboard */,
 				161C4E7B214E8736003EB5A3 /* Assets.xcassets */,
 				161C4E7D214E8736003EB5A3 /* LaunchScreen.storyboard */,
@@ -115,6 +122,7 @@
 			isa = PBXGroup;
 			children = (
 				161C4E9D214EEEB0003EB5A3 /* MovieCell.swift */,
+				161C4E73214E8735003EB5A3 /* MoviesViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -136,6 +144,23 @@
 			path = service;
 			sourceTree = "<group>";
 		};
+		167C4F50215653E80001A8A7 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				167C4F52215654380001A8A7 /* MoviesListViewModel.swift */,
+				167C4F572157BB550001A8A7 /* MovieViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		167C4F512156541E0001A8A7 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				167C4F54215654460001A8A7 /* Movie.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -146,6 +171,7 @@
 				161C4E6A214E8735003EB5A3 /* Sources */,
 				161C4E6B214E8735003EB5A3 /* Frameworks */,
 				161C4E6C214E8735003EB5A3 /* Resources */,
+				167C4F56215794CC0001A8A7 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -186,9 +212,11 @@
 				TargetAttributes = {
 					161C4E6D214E8735003EB5A3 = {
 						CreatedOnToolsVersion = 9.4.1;
+						LastSwiftMigration = 1000;
 					};
 					161C4E84214E8736003EB5A3 = {
 						CreatedOnToolsVersion = 9.4.1;
+						LastSwiftMigration = 1000;
 						TestTargetID = 161C4E6D214E8735003EB5A3;
 					};
 				};
@@ -232,6 +260,27 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		167C4F56215794CC0001A8A7 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/Alamofire.framework",
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks\n\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		161C4E6A214E8735003EB5A3 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -239,8 +288,11 @@
 			files = (
 				167C4F4D2154FD390001A8A7 /* APISession.swift in Sources */,
 				161C4E7A214E8735003EB5A3 /* MovieDBDiscovery.xcdatamodeld in Sources */,
+				167C4F55215654460001A8A7 /* Movie.swift in Sources */,
 				161C4E74214E8735003EB5A3 /* MoviesViewController.swift in Sources */,
 				161C4E9E214EEEB0003EB5A3 /* MovieCell.swift in Sources */,
+				167C4F582157BB550001A8A7 /* MovieViewModel.swift in Sources */,
+				167C4F53215654380001A8A7 /* MoviesListViewModel.swift in Sources */,
 				161C4E72214E8735003EB5A3 /* AppDelegate.swift in Sources */,
 				167C4F4F215507610001A8A7 /* MoviesRequestHandler.swift in Sources */,
 			);
@@ -415,7 +467,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.RME.MovieDBDiscovery;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -437,7 +489,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.RME.MovieDBDiscovery;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -457,7 +509,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.RME.MovieDBDiscoveryTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MovieDBDiscovery.app/MovieDBDiscovery";
 			};
@@ -478,7 +530,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.RME.MovieDBDiscoveryTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MovieDBDiscovery.app/MovieDBDiscovery";
 			};
