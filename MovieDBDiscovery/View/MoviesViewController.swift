@@ -42,11 +42,8 @@ extension MoviesViewController {
         guard let movie = viewModel.movieAtIndex(index: indexPath.row) else {
             preconditionFailure("The item is not found at the requested index")
         }
-        cell.title.text = movie.title
-        cell.score.text = String(format: "%.1f", movie.popularity ?? 0)
-//        cell.poster.image = movie.title
-//        cell.date.text = "1222"
-//        cell.genre.text = "ccc ffff ggggggggg aaqwertgtee"
+        let movieVM = MovieViewModel(movie: movie)
+        cell.configure(with: movieVM)
         return cell
     }
 }

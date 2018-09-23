@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import AlamofireImage
 
 class MovieCell: UITableViewCell {
 
@@ -17,7 +18,21 @@ class MovieCell: UITableViewCell {
     @IBOutlet weak var title: UILabel!
     @IBOutlet weak var poster: UIImageView!
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+
+        poster.af_cancelImageRequest()
+        poster.image = nil
+    }
+
+    func configure(with movie: MovieViewModel) {
+        self.title.text = movie.title
+        self.score.text = movie.popularity
+        if movie.posterURL != nil {
+            self.poster.af_setImage(withURL: movie.posterURL!)
+        }
+        self.date.text = movie.releaseDate
+        self.genre.text = movie.genre
     }
 }

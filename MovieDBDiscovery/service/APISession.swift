@@ -31,12 +31,11 @@ enum APIEndpoint: String {
 public class APISession {
 
     func getRequest(endpoint: URL, completion: @escaping DataCompletionBlock) {
-        print("\(endpoint.absoluteString)")
         Alamofire.request(endpoint,
                           method: .get,
                           parameters:[
                             "language":"en-US",
-                            "api_key": "c5c6611eb0f8ded2a4e5d85f33e73e76"]) // TODO: to be replaced with the real key
+                            "api_key": "xxx"]) // TODO: to be replaced with the real key
             .validate()
             .responseJSON { response in
                 // check for errors, and if the data isn't nil
