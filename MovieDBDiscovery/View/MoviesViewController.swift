@@ -11,7 +11,10 @@ import UIKit
 class MoviesViewController: UIViewController {
     @IBOutlet var tableView: UITableView!
     @IBOutlet var loadingIndicator: UIActivityIndicatorView!
+    @IBOutlet var searchFooter: SearchFooter!
+
     var viewModel: MoviesListViewModelProtocol!
+    let searchController = UISearchController(searchResultsController: nil)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,12 +22,26 @@ class MoviesViewController: UIViewController {
     }
 
     override func viewDidAppear(_ animated: Bool) {
+        self.configureSearchController()
         self.tableViewSetup()
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
 
+    func configureSearchController() {
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search By movie name"
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
+
+        // Setup the Scope Bar
+        searchController.searchBar.delegate = self
+
+        // Setup the search footer
+        tableView.tableFooterView = searchFooter
+    }
     func tableViewSetup() {
         self.tableView.rowHeight = UITableView.automaticDimension
     }
@@ -33,6 +50,12 @@ class MoviesViewController: UIViewController {
 
 extension MoviesViewController: UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if isFiltering() {
+            searchFooter.setIsFilteringToShow(filteredItemCount: 0, of: 1)
+            return viewModel.moviesCount
+        }
+
+        searchFooter.setNotFiltering()
         return viewModel.moviesCount
     }
 
@@ -59,5 +82,6 @@ extension MoviesViewController: MoviesViewModelDelegate {
                                preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Ok", style: .default))
         self.present(alert, animated: false)
+        self.loadingIndicator.stopAnimating()
     }
 }
