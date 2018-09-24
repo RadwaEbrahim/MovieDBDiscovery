@@ -11,8 +11,11 @@ import UIKit
 extension MoviesViewController: UISearchBarDelegate {
 
     func filterContentForSearchText(_ searchText: String) {
+        viewModel.searchText = searchText
+    }
 
-//        tableView.reloadData()
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        viewModel.loadMoviesList()
     }
 
     func searchBarIsEmpty() -> Bool {
@@ -20,13 +23,11 @@ extension MoviesViewController: UISearchBarDelegate {
     }
 
     func isFiltering() -> Bool {
-        let searchBarScopeIsFiltering = searchController.searchBar.selectedScopeButtonIndex != 0
-        return searchController.isActive && (!searchBarIsEmpty() || searchBarScopeIsFiltering)
+        return searchController.isActive && (!searchBarIsEmpty())
     }
 }
 
 extension MoviesViewController: UISearchResultsUpdating {
-    // MARK: - UISearchResultsUpdating Delegate
     func updateSearchResults(for searchController: UISearchController) {
         filterContentForSearchText(searchController.searchBar.text!)
     }

@@ -42,6 +42,7 @@ class MoviesViewController: UIViewController {
         // Setup the search footer
         tableView.tableFooterView = searchFooter
     }
+
     func tableViewSetup() {
         self.tableView.rowHeight = UITableView.automaticDimension
     }

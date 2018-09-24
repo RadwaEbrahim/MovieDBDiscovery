@@ -14,6 +14,7 @@ typealias DataCompletionBlock = (Any?, Error?) -> Void
 enum APIEndpoint: String {
     case popularMovies = "discover/movie?sort_by=popularity.desc"
     case movieDetails = "movie/%@"
+    case searchMovies = "search/movie?query=%@"
 
     var baseURL: URL {
         return URL(string:"https://api.themoviedb.org/3/")! //force unwrap is it's a programatic issue if this was nil
