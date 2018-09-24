@@ -8,34 +8,35 @@
 
 import UIKit
 
-class MoviesViewController: UITableViewController {
+class MoviesViewController: UIViewController {
+    @IBOutlet var tableView: UITableView!
+    @IBOutlet var loadingIndicator: UIActivityIndicatorView!
     var viewModel: MoviesListViewModelProtocol!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.tableViewSetup()
+        self.loadingIndicator.startAnimating()
     }
 
     override func viewDidAppear(_ animated: Bool) {
-        //tableView.reloadData()
+        self.tableViewSetup()
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
 
     func tableViewSetup() {
-        tableView.rowHeight = UITableView.automaticDimension
-        //tableView.estimatedRowHeight = 350
+        self.tableView.rowHeight = UITableView.automaticDimension
     }
 
 }
 
-extension MoviesViewController {
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+extension MoviesViewController: UITableViewDataSource{
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.moviesCount
     }
 
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! MovieCell
         guard let movie = viewModel.movieAtIndex(index: indexPath.row) else {
             preconditionFailure("The item is not found at the requested index")
@@ -49,13 +50,14 @@ extension MoviesViewController {
 extension MoviesViewController: MoviesViewModelDelegate {
     func moviesLoaded() {
         tableView.reloadData()
+        self.loadingIndicator.stopAnimating()
     }
 
     func loadingMoviesFailed(error: Error) {
         let alert = UIAlertController.init(title: "We are sorry!",
                                message: error.localizedDescription,
                                preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .default))
         self.present(alert, animated: false)
     }
-
 }
