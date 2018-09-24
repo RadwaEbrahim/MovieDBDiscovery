@@ -28,6 +28,10 @@ internal var movieJson: [String: Any?] {
     ]
 }
 
-internal var movieWithValues: Movie {
+internal var movieMock: Movie {
     return Movie(id: 111 , title: "title", releaseDate: "1992-08-08", popularity: 33, poster: "", genre: nil)
+}
+
+internal var movieViewModelMock: MovieViewModel {
+    return MovieViewModel(movie: movieMock)
 }

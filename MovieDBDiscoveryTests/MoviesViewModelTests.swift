@@ -57,7 +57,7 @@ class MoviesViewModelTests: XCTestCase {
                                                   delegate: self.viewModelDelegateMock)
         moviesViewModel.loadMoviesList()
         XCTAssertEqual(moviesViewModel.moviesCount, 1)
-        XCTAssertEqual(moviesViewModel.movieAtIndex(index: 0)!, movieWithValues)
+        XCTAssertEqual(moviesViewModel.movieAtIndex(index: 0)!, movieMock)
     }
 
 }

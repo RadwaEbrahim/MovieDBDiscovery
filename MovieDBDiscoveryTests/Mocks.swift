@@ -23,7 +23,7 @@ internal class MoviesRequestHandlerMock: MoviesRequestHandlerProtocol {
     }
 
     func getPopularMovies(completion: @escaping MoviesListCompletionHandler) {
-        completion([movieWithValues], nil)
+        completion([movieMock], nil)
     }
 }
 
