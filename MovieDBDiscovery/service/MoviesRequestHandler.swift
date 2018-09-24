@@ -12,6 +12,7 @@ typealias MoviesListCompletionHandler = ([Movie]?, Error?) -> Void
 
 protocol MoviesRequestHandlerProtocol {
     func getPopularMovies(completion: @escaping MoviesListCompletionHandler)
+    func searchMoviesByTitle(title: String, completion: @escaping MoviesListCompletionHandler) 
     var session: APISessionProtocol { get }
 }
 
@@ -40,4 +41,25 @@ class MoviesRequestHandler: MoviesRequestHandlerProtocol {
             //TODO: Read/write from DB, and return array of model objects
         }
     }
+
+    func searchMoviesByTitle(title: String, completion: @escaping MoviesListCompletionHandler) {
+        let endpoint = APIEndpoint.searchMovies.toURL(title)
+        self.session.getRequest(endpoint: endpoint){ json, error in
+
+            guard error == nil else {
+                completion(nil, error)
+                return
+            }
+
+            guard let json = json as? [String: Any],
+                let results = json["results"] as? [[String: Any]] else {
+                    completion(nil, nil)
+                    return
+            }
+            let moviesList = results.compactMap { Movie(from: $0) }
+            completion(moviesList, nil)
+            //TODO: Read/write from DB, and return array of model objects
+        }
+    }
+
 }

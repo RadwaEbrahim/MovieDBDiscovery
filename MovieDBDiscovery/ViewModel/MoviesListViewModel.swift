@@ -12,9 +12,11 @@ protocol MoviesListViewModelProtocol {
     func loadMoviesList()
     func movieAtIndex(index: Int)-> Movie?
     var moviesCount: Int { get }
+    var searchText: String? { get set }
 }
 
 protocol MoviesViewModelDelegate {
+    func isLoading(loading: Bool)
     func moviesLoaded()
     func loadingMoviesFailed(error: Error)
 }
@@ -35,14 +37,30 @@ class MoviesListViewModel: MoviesListViewModelProtocol {
         return moviesList?.count ?? 0
     }
 
+    var searchText: String? {
+        didSet {
+            guard let string = searchText?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines), !string.isEmpty else {
+                print("empty string, won't execute search.")
+                return
+            }
+            self.searchMovie(with: searchText!)
+        }
+    }
+
+    var isLoading: Bool = false {
+        didSet {
+            self.delegate?.isLoading(loading: isLoading)
+        }
+    }
+
     func movieAtIndex(index: Int) -> Movie? {
         return moviesList?[index] ?? nil
     }
 
     func loadMoviesList() {
+        isLoading = true
         service.getPopularMovies(){ [weak self] moviesList, error in
             guard error == nil else {
-                ///Since not all errors are tested to return a human readable localised error message, We are showing a general one.
                 self?.delegate?.loadingMoviesFailed(error: error!)
                 return
             }
@@ -54,5 +72,24 @@ class MoviesListViewModel: MoviesListViewModelProtocol {
             self?.delegate?.moviesLoaded()
             return
         }
+        isLoading = false
+    }
+
+    func searchMovie(with title: String) {
+        isLoading = true
+        service.searchMoviesByTitle(title: title) { [weak self] moviesList, error in
+            guard error == nil else {
+                self?.delegate?.loadingMoviesFailed(error: error!)
+                return
+            }
+            guard let moviesList = moviesList else {
+                print("Empty movies list is returned, nothing to show.")
+                return
+            }
+            self?.moviesList = moviesList
+            self?.delegate?.moviesLoaded()
+            return
+        }
+        isLoading = false
     }
 }

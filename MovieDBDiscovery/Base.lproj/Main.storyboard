@@ -109,12 +109,22 @@
                                 <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                                 <color key="tintColor" red="0.93725490199999995" green="0.1058823529" blue="0.32549019610000002" alpha="1" colorSpace="calibratedRGB"/>
                             </activityIndicatorView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cqM-6b-3bO" customClass="SearchFooter" customModule="CandySearch" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="623" width="375" height="44"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="6yC-Ok-GEe"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="cqM-6b-3bO" firstAttribute="trailing" secondItem="zip-lT-GXr" secondAttribute="trailing" id="4xf-hV-DwZ"/>
                             <constraint firstItem="zip-lT-GXr" firstAttribute="trailing" secondItem="DgD-hm-KRu" secondAttribute="trailing" id="8lW-lf-Jae"/>
+                            <constraint firstItem="cqM-6b-3bO" firstAttribute="leading" secondItem="zip-lT-GXr" secondAttribute="leading" id="VIe-Uk-vpa"/>
                             <constraint firstItem="zip-lT-GXr" firstAttribute="bottom" secondItem="DgD-hm-KRu" secondAttribute="bottom" id="VQX-OX-sDd"/>
                             <constraint firstItem="DgD-hm-KRu" firstAttribute="top" secondItem="79n-Lv-qyS" secondAttribute="top" id="Y7r-Xl-kNL"/>
+                            <constraint firstItem="zip-lT-GXr" firstAttribute="bottom" secondItem="cqM-6b-3bO" secondAttribute="bottom" id="bLY-qx-TkP"/>
                             <constraint firstItem="zip-lT-GXr" firstAttribute="bottom" secondItem="nDn-R8-pwK" secondAttribute="bottom" id="hIK-N5-VLw"/>
                             <constraint firstItem="zip-lT-GXr" firstAttribute="trailing" secondItem="nDn-R8-pwK" secondAttribute="trailing" id="oD9-iD-iO2"/>
                             <constraint firstItem="nDn-R8-pwK" firstAttribute="leading" secondItem="zip-lT-GXr" secondAttribute="leading" id="q3R-c2-QVW"/>
@@ -125,6 +135,7 @@
                     </view>
                     <connections>
                         <outlet property="loadingIndicator" destination="nDn-R8-pwK" id="rIk-zr-2kW"/>
+                        <outlet property="searchFooter" destination="cqM-6b-3bO" id="OaF-Mq-hwm"/>
                         <outlet property="tableView" destination="DgD-hm-KRu" id="UhB-p0-HCb"/>
                     </connections>
                 </viewController>
