@@ -9,7 +9,7 @@
 import Foundation
 
 struct Movie: Decodable {
-    var id: String?
+    var id: Int?
     var title: String?
     var releaseDate: String?
     var popularity: Double?
@@ -25,7 +25,7 @@ struct Movie: Decodable {
         case genre = "genre_ids" //needs another call
     }
 
-    init(id: String?, title: String?, releaseDate: String?, popularity: Double?, poster: String?, genre: String?) {
+    init(id: Int?, title: String?, releaseDate: String?, popularity: Double?, poster: String?, genre: String?) {
         self.id = id
         self.title = title
         self.releaseDate = releaseDate
@@ -36,13 +36,12 @@ struct Movie: Decodable {
 
     init?(from json: [String: Any]) {
         let id = json[jsonKeys.id.rawValue] as? Int
-            let title = json[jsonKeys.title.rawValue] as? String
-            let popularity = json[jsonKeys.popularity.rawValue] as? Double
-
+        let title = json[jsonKeys.title.rawValue] as? String
+        let popularity = json[jsonKeys.popularity.rawValue] as? Double
         let releaseDate = json[jsonKeys.releaseDate.rawValue] as? String
         let poster = json[jsonKeys.poster.rawValue] as? String
         let genre = json[jsonKeys.genre.rawValue] as? String
 
-        self.init(id: "\(String(describing: id))", title: title, releaseDate: releaseDate, popularity: popularity, poster: poster, genre: genre)
+        self.init(id: id, title: title, releaseDate: releaseDate, popularity: popularity, poster: poster, genre: genre)
     }
 }

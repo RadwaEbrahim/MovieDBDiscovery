@@ -18,15 +18,21 @@ protocol MoviesViewModelDelegate {
     func moviesLoaded()
     func loadingMoviesFailed(error: Error)
 }
+enum APIError : Error {
+    case requestFailed
+    var localizedDescription: String {
+        return NSLocalizedString(
+            "Retrieve Popular movies list failed. Please try again and contact us if it is still doesn't work.",
+            comment: "Retrieve Popular movies list failed. Please try again and contact us if it is still doesn't work.")
+    }
+}
 
 class MoviesListViewModel: MoviesListViewModelProtocol {
-
-
     private var moviesList: [Movie]?
-    private var service: MoviesRequestHandler
+    private var service: MoviesRequestHandlerProtocol
     private var delegate: MoviesViewModelDelegate?
 
-    init(service: MoviesRequestHandler, delegate: MoviesViewModelDelegate?) {
+    init(service: MoviesRequestHandlerProtocol, delegate: MoviesViewModelDelegate?) {
         self.service = service
         self.delegate = delegate
         self.loadMoviesList()
@@ -40,10 +46,11 @@ class MoviesListViewModel: MoviesListViewModelProtocol {
         return moviesList?[index] ?? nil
     }
 
-    func loadMoviesList(){
+    func loadMoviesList() {
         service.getPopularMovies(){ [weak self] moviesList, error in
             guard error == nil else {
-                self?.delegate?.loadingMoviesFailed(error: error!)
+                ///Since not all errors are tested to return a human readable localised error message, We are showing a general one.
+                self?.delegate?.loadingMoviesFailed(error: APIError.requestFailed)
                 return
             }
             guard let moviesList = moviesList else {
@@ -53,6 +60,6 @@ class MoviesListViewModel: MoviesListViewModelProtocol {
             self?.moviesList = moviesList
             self?.delegate?.moviesLoaded()
             return
-            }
+        }
     }
 }

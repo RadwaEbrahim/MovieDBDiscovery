@@ -13,7 +13,7 @@
 		161C4E7A214E8735003EB5A3 /* MovieDBDiscovery.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 161C4E78214E8735003EB5A3 /* MovieDBDiscovery.xcdatamodeld */; };
 		161C4E7C214E8736003EB5A3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 161C4E7B214E8736003EB5A3 /* Assets.xcassets */; };
 		161C4E7F214E8736003EB5A3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 161C4E7D214E8736003EB5A3 /* LaunchScreen.storyboard */; };
-		161C4E8A214E8736003EB5A3 /* MovieDBDiscoveryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161C4E89214E8736003EB5A3 /* MovieDBDiscoveryTests.swift */; };
+		161C4E8A214E8736003EB5A3 /* MoviesRequestHandlerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161C4E89214E8736003EB5A3 /* MoviesRequestHandlerTests.swift */; };
 		161C4E9E214EEEB0003EB5A3 /* MovieCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161C4E9D214EEEB0003EB5A3 /* MovieCell.swift */; };
 		167C4F1A215121F20001A8A7 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 167C4F19215121F20001A8A7 /* Alamofire.framework */; };
 		167C4F4D2154FD390001A8A7 /* APISession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167C4F4C2154FD390001A8A7 /* APISession.swift */; };
@@ -22,6 +22,9 @@
 		167C4F55215654460001A8A7 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167C4F54215654460001A8A7 /* Movie.swift */; };
 		167C4F582157BB550001A8A7 /* MovieViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167C4F572157BB550001A8A7 /* MovieViewModel.swift */; };
 		167C4F5A2157CC770001A8A7 /* AlamofireImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 167C4F592157CC770001A8A7 /* AlamofireImage.framework */; };
+		167C4F5C215821250001A8A7 /* Mocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167C4F5B215821250001A8A7 /* Mocks.swift */; };
+		167C4F5E2158B3220001A8A7 /* TestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167C4F5D2158B3220001A8A7 /* TestData.swift */; };
+		167C4F602158CB720001A8A7 /* TestMovie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167C4F5F2158CB720001A8A7 /* TestMovie.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,7 +47,7 @@
 		161C4E7E214E8736003EB5A3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		161C4E80214E8736003EB5A3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		161C4E85214E8736003EB5A3 /* MovieDBDiscoveryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MovieDBDiscoveryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		161C4E89214E8736003EB5A3 /* MovieDBDiscoveryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDBDiscoveryTests.swift; sourceTree = "<group>"; };
+		161C4E89214E8736003EB5A3 /* MoviesRequestHandlerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesRequestHandlerTests.swift; sourceTree = "<group>"; };
 		161C4E8B214E8736003EB5A3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		161C4E9D214EEEB0003EB5A3 /* MovieCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCell.swift; sourceTree = "<group>"; };
 		167C4F19215121F20001A8A7 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
@@ -54,6 +57,9 @@
 		167C4F54215654460001A8A7 /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 		167C4F572157BB550001A8A7 /* MovieViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieViewModel.swift; sourceTree = "<group>"; };
 		167C4F592157CC770001A8A7 /* AlamofireImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AlamofireImage.framework; path = Carthage/Build/iOS/AlamofireImage.framework; sourceTree = "<group>"; };
+		167C4F5B215821250001A8A7 /* Mocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mocks.swift; sourceTree = "<group>"; };
+		167C4F5D2158B3220001A8A7 /* TestData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestData.swift; sourceTree = "<group>"; };
+		167C4F5F2158CB720001A8A7 /* TestMovie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestMovie.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,8 +121,11 @@
 		161C4E88214E8736003EB5A3 /* MovieDBDiscoveryTests */ = {
 			isa = PBXGroup;
 			children = (
-				161C4E89214E8736003EB5A3 /* MovieDBDiscoveryTests.swift */,
+				161C4E89214E8736003EB5A3 /* MoviesRequestHandlerTests.swift */,
 				161C4E8B214E8736003EB5A3 /* Info.plist */,
+				167C4F5B215821250001A8A7 /* Mocks.swift */,
+				167C4F5D2158B3220001A8A7 /* TestData.swift */,
+				167C4F5F2158CB720001A8A7 /* TestMovie.swift */,
 			);
 			path = MovieDBDiscoveryTests;
 			sourceTree = "<group>";
@@ -307,7 +316,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				161C4E8A214E8736003EB5A3 /* MovieDBDiscoveryTests.swift in Sources */,
+				167C4F5E2158B3220001A8A7 /* TestData.swift in Sources */,
+				161C4E8A214E8736003EB5A3 /* MoviesRequestHandlerTests.swift in Sources */,
+				167C4F602158CB720001A8A7 /* TestMovie.swift in Sources */,
+				167C4F5C215821250001A8A7 /* Mocks.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

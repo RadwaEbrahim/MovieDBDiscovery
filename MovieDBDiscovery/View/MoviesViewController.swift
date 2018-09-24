@@ -54,8 +54,10 @@ extension MoviesViewController: MoviesViewModelDelegate {
     }
 
     func loadingMoviesFailed(error: Error) {
-        //show error
+        let alert = UIAlertController.init(title: "We are sorry!",
+                               message: error.localizedDescription,
+                               preferredStyle: .alert)
+        self.present(alert, animated: false)
     }
-
 
 }
