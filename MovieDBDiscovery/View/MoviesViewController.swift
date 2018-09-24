@@ -14,9 +14,8 @@ class MoviesViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableViewSetup()
-
-
     }
+
     override func viewDidAppear(_ animated: Bool) {
         //tableView.reloadData()
     }
@@ -26,9 +25,8 @@ class MoviesViewController: UITableViewController {
 
     func tableViewSetup() {
         tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = 350
+        //tableView.estimatedRowHeight = 350
     }
-
 
 }
 

@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Movie: Decodable {
+struct Movie: Equatable {
     var id: Int?
     var title: String?
     var releaseDate: String?

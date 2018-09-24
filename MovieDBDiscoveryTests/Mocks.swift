@@ -11,7 +11,7 @@ import XCTest
 internal class APISessionMock: APISessionProtocol {
 
     func getRequest(endpoint: URL, completion: @escaping DataCompletionBlock) {
-            completion (["results": [["id": 222]]], nil)
+            completion (["results": [movieJson]], nil)
     }
 }
 
@@ -23,7 +23,7 @@ internal class MoviesRequestHandlerMock: MoviesRequestHandlerProtocol {
     }
 
     func getPopularMovies(completion: @escaping MoviesListCompletionHandler) {
-        completion([], nil)
+        completion([movieWithValues], nil)
     }
 }
 
