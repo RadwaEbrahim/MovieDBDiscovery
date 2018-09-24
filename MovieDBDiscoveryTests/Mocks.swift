@@ -16,14 +16,18 @@ internal class APISessionMock: APISessionProtocol {
 }
 
 internal class MoviesRequestHandlerMock: MoviesRequestHandlerProtocol {
-    var session: APISessionProtocol
 
+    var session: APISessionProtocol
     init(session: APISessionProtocol = APISessionMock()) {
         self.session = session
     }
 
     func getPopularMovies(completion: @escaping MoviesListCompletionHandler) {
         completion([movieMock], nil)
+    }
+
+    func searchMoviesByTitle(title: String, completion: @escaping MoviesListCompletionHandler) {
+        completion([movieMock, movieMock], nil)
     }
 }
 

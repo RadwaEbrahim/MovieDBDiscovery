@@ -1,5 +1,5 @@
 //
-//  TestMovieCell.swift
+//  MovieCellTests.swift
 //  MovieDBDiscoveryTests
 //
 //  Created by Radwa Ibrahim on 24.09.18.
@@ -9,7 +9,7 @@
 import XCTest
 @testable import MovieDBDiscovery
 
-class TestMovieCell: XCTestCase {
+class MovieCellTests: XCTestCase {
     var controller: MoviesViewController!
     override func setUp() {
         super.setUp()

@@ -13,7 +13,6 @@ protocol MoviesListViewModelProtocol {
     func movieAtIndex(index: Int)-> Movie?
     var moviesCount: Int { get }
     var searchText: String? { get set }
-
 }
 
 protocol MoviesViewModelDelegate {
@@ -25,7 +24,7 @@ class MoviesListViewModel: MoviesListViewModelProtocol {
     var searchText: String? {
         didSet {
             guard let string = searchText?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines), !string.isEmpty else {
-                print("empty string")
+                print("empty string, won't execute search.")
                 return
             }
             self.searchMovie(with: searchText!)

@@ -1,5 +1,5 @@
 //
-//  TestMovie.swift
+//  ModelTests.swift
 //  MovieDBDiscoveryTests
 //
 //  Created by Radwa Ibrahim on 24.09.18.
@@ -9,7 +9,7 @@
 import XCTest
 @testable import MovieDBDiscovery
 
-class TestMovie: XCTestCase {
+class ModelTests: XCTestCase {
 
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
