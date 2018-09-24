@@ -16,20 +16,12 @@ protocol MoviesListViewModelProtocol {
 }
 
 protocol MoviesViewModelDelegate {
+    func isLoading(loading: Bool)
     func moviesLoaded()
     func loadingMoviesFailed(error: Error)
 }
 
 class MoviesListViewModel: MoviesListViewModelProtocol {
-    var searchText: String? {
-        didSet {
-            guard let string = searchText?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines), !string.isEmpty else {
-                print("empty string, won't execute search.")
-                return
-            }
-            self.searchMovie(with: searchText!)
-        }
-    }
 
     private var moviesList: [Movie]?
     private var service: MoviesRequestHandlerProtocol
@@ -45,11 +37,28 @@ class MoviesListViewModel: MoviesListViewModelProtocol {
         return moviesList?.count ?? 0
     }
 
+    var searchText: String? {
+        didSet {
+            guard let string = searchText?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines), !string.isEmpty else {
+                print("empty string, won't execute search.")
+                return
+            }
+            self.searchMovie(with: searchText!)
+        }
+    }
+
+    var isLoading: Bool = false {
+        didSet {
+            self.delegate?.isLoading(loading: isLoading)
+        }
+    }
+
     func movieAtIndex(index: Int) -> Movie? {
         return moviesList?[index] ?? nil
     }
 
     func loadMoviesList() {
+        isLoading = true
         service.getPopularMovies(){ [weak self] moviesList, error in
             guard error == nil else {
                 self?.delegate?.loadingMoviesFailed(error: error!)
@@ -63,9 +72,11 @@ class MoviesListViewModel: MoviesListViewModelProtocol {
             self?.delegate?.moviesLoaded()
             return
         }
+        isLoading = false
     }
 
     func searchMovie(with title: String) {
+        isLoading = true
         service.searchMoviesByTitle(title: title) { [weak self] moviesList, error in
             guard error == nil else {
                 self?.delegate?.loadingMoviesFailed(error: error!)
@@ -79,5 +90,6 @@ class MoviesListViewModel: MoviesListViewModelProtocol {
             self?.delegate?.moviesLoaded()
             return
         }
+        isLoading = false
     }
 }

@@ -16,17 +16,11 @@ class MoviesViewController: UIViewController {
     var viewModel: MoviesListViewModelProtocol!
     let searchController = UISearchController(searchResultsController: nil)
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.loadingIndicator.startAnimating()
-    }
 
     override func viewDidAppear(_ animated: Bool) {
         self.configureSearchController()
         self.tableViewSetup()
-    }
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
+        self.loadingIndicator.startAnimating()
     }
 
     func configureSearchController() {
@@ -79,10 +73,18 @@ extension MoviesViewController: MoviesViewModelDelegate {
 
     func loadingMoviesFailed(error: Error) {
         let alert = UIAlertController.init(title: "We are sorry!",
-                               message: error.localizedDescription,
-                               preferredStyle: .alert)
+                                           message: error.localizedDescription,
+                                           preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Ok", style: .default))
         self.present(alert, animated: false)
         self.loadingIndicator.stopAnimating()
+    }
+
+    func isLoading(loading: Bool){
+        if loading {
+            self.loadingIndicator?.startAnimating()
+        } else {
+            self.loadingIndicator?.stopAnimating()
+        }
     }
 }

@@ -22,8 +22,10 @@ enum APIEndpoint: String {
 
     public func toURL(_ arguments: CVarArg...) -> URL {
         let pathString = String(format: self.rawValue, arguments: arguments)
-        guard let url = URL(string: pathString, relativeTo: self.baseURL) else {
-            fatalError("Unable to construct a service URL for \(pathString)")
+        guard let pathStringEncoded = pathString.addingPercentEncoding(
+            withAllowedCharacters: .urlFragmentAllowed),
+            let url = URL(string: pathStringEncoded, relativeTo: self.baseURL) else {
+                fatalError("Unable to construct a service URL for \(pathString)")
         }
         return url
     }
@@ -47,10 +49,10 @@ public class APISession: APISessionProtocol {
                 guard let json  = response.result.value,
                     response.result.error == nil else {
                         let error = response.result.error
-                    // got an error in getting the data, need to handle it
+                        // got an error in getting the data, need to handle it
                         print("error calling GET on \(endpoint) with error: \(String(describing: error))")
-                    completion(nil, error)
-                    return
+                        completion(nil, error)
+                        return
                 }
 
                 completion(json, nil)
