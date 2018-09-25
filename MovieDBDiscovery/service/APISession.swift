@@ -12,9 +12,9 @@ import Alamofire
 typealias DataCompletionBlock = (Any?, Error?) -> Void
 
 enum APIEndpoint: String {
-    case popularMovies = "discover/movie?sort_by=popularity.desc"
-    case movieDetails = "movie/%@"
-    case searchMovies = "search/movie?query=%@"
+    case popularMovies = "discover/movie?sort_by=popularity.desc&page=%d"
+    case movieDetails = "movie/%@&page=%d"
+    case searchMovies = "search/movie?query=%@&page=%d"
 
     var baseURL: URL {
         return URL(string:"https://api.themoviedb.org/3/")! //force unwrap is it's a programatic issue if this was nil

@@ -63,25 +63,3 @@ class SearchFooter: UIView {
     }
   }
 }
-
-extension SearchFooter {
-  //MARK: - Public API
-  
-  public func setNotFiltering() {
-    label.text = ""
-    hideFooter()
-  }
-  
-  public func setIsFilteringToShow(filteredItemCount: Int, of totalItemCount: Int) {
-    if (filteredItemCount == totalItemCount) {
-      setNotFiltering()
-    } else if (filteredItemCount == 0) {
-      label.text = "No items match your query"
-      showFooter()
-    } else {
-      label.text = "Filtering \(filteredItemCount) of \(totalItemCount)"
-      showFooter()
-    }
-  }
-
-}

@@ -8,11 +8,11 @@
 
 import Foundation
 
-typealias MoviesListCompletionHandler = ([Movie]?, Error?) -> Void
+typealias MoviesListCompletionHandler = ([Movie]?, Int, Error?) -> Void
 
 protocol MoviesRequestHandlerProtocol {
-    func getPopularMovies(completion: @escaping MoviesListCompletionHandler)
-    func searchMoviesByTitle(title: String, completion: @escaping MoviesListCompletionHandler) 
+    func getPopularMovies(page: Int, completion: @escaping MoviesListCompletionHandler)
+    func searchMoviesByTitle(title: String, page: Int, completion: @escaping MoviesListCompletionHandler)
     var session: APISessionProtocol { get }
 }
 
@@ -23,41 +23,44 @@ class MoviesRequestHandler: MoviesRequestHandlerProtocol {
         self.session = session
     }
 
-    func getPopularMovies(completion: @escaping MoviesListCompletionHandler){
-        self.session.getRequest(endpoint: APIEndpoint.popularMovies.toURL()){ json, error in
+    func getPopularMovies(page: Int, completion: @escaping MoviesListCompletionHandler){
+        print("url \(APIEndpoint.popularMovies.toURL(page))")
+        self.session.getRequest(endpoint: APIEndpoint.popularMovies.toURL(page)){ json, error in
 
             guard error == nil else {
-                completion(nil, error)
+                completion(nil, 0, error)
                 return
             }
 
             guard let json = json as? [String: Any],
-                let results = json["results"] as? [[String: Any]] else {
-                    completion(nil, nil)
+                let results = json["results"] as? [[String: Any]],
+                let totalsPages = json["total_pages"] as? Int else {
+                    completion(nil, 0, nil)
                     return
             }
             let moviesList = results.compactMap { Movie(from: $0) }
-            completion(moviesList, nil)
+            completion(moviesList, totalsPages, nil)
             //TODO: Read/write from DB, and return array of model objects
         }
     }
 
-    func searchMoviesByTitle(title: String, completion: @escaping MoviesListCompletionHandler) {
-        let endpoint = APIEndpoint.searchMovies.toURL(title)
+    func searchMoviesByTitle(title: String, page: Int, completion: @escaping MoviesListCompletionHandler) {
+        let endpoint = APIEndpoint.searchMovies.toURL(title, page)
         self.session.getRequest(endpoint: endpoint){ json, error in
 
             guard error == nil else {
-                completion(nil, error)
+                completion(nil, 0, error)
                 return
             }
 
             guard let json = json as? [String: Any],
-                let results = json["results"] as? [[String: Any]] else {
-                    completion(nil, nil)
+                let results = json["results"] as? [[String: Any]],
+                let totalsPages = json["total_pages"] as? Int else {
+                    completion(nil, 0, nil)
                     return
             }
             let moviesList = results.compactMap { Movie(from: $0) }
-            completion(moviesList, nil)
+            completion(moviesList, totalsPages, nil)
             //TODO: Read/write from DB, and return array of model objects
         }
     }

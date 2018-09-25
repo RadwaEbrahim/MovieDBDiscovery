@@ -17,7 +17,7 @@ class MovieCellTests: XCTestCase {
             .instantiateInitialViewController() as? MoviesViewController else {
                 return XCTFail("Could not instantiate ViewController from main storyboard")
         }
-
+        vc.viewModel = MoviesListViewModel(service: MoviesRequestHandlerMock(), delegate: nil)
         controller = vc
         controller.loadViewIfNeeded()
     }

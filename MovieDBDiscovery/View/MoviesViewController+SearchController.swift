@@ -15,7 +15,7 @@ extension MoviesViewController: UISearchBarDelegate {
     }
 
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        viewModel.loadMoviesList()
+        viewModel.cancelSearch()
     }
 
     func searchBarIsEmpty() -> Bool {

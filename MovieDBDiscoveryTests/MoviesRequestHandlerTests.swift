@@ -19,18 +19,20 @@ class MoviesRequestHandlerTests: XCTestCase {
 
     func testRequestHandlerGetPopularMovies() {
         let handler = MoviesRequestHandler(session: APISessionMock())
-        handler.getPopularMovies() { json, error in
+        handler.getPopularMovies(page: 0) { json, count, error in
             XCTAssertNil(error)
             XCTAssertNotNil(json)
+            XCTAssertEqual(count, 2)
         }
     }
 
     func testRequestHandlerSearchMovies() {
         let handler = MoviesRequestHandler(session: APISessionMock())
 
-        handler.searchMoviesByTitle(title: "xxx") { movies, error in
+        handler.searchMoviesByTitle(title: "xxx", page: 0) { movies, count, error in
             XCTAssertNil(error)
             XCTAssertNotNil(movies)
+            XCTAssertEqual(count, 2)
         }
     }
 

@@ -29,6 +29,8 @@
 		167C4F6521590ECE0001A8A7 /* SearchFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167C4F6421590ECE0001A8A7 /* SearchFooter.swift */; };
 		167C4F67215910060001A8A7 /* MoviesViewController+SearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167C4F66215910060001A8A7 /* MoviesViewController+SearchController.swift */; };
 		167C4F69215941510001A8A7 /* MoviesRequestHandlerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167C4F68215941510001A8A7 /* MoviesRequestHandlerTests.swift */; };
+		167C4F6B2159542C0001A8A7 /* MoviesViewController+UITableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167C4F6A2159542C0001A8A7 /* MoviesViewController+UITableView.swift */; };
+		167C4F6D215A34540001A8A7 /* MoviesListViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167C4F6C215A34540001A8A7 /* MoviesListViewModelProtocol.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,6 +70,8 @@
 		167C4F6421590ECE0001A8A7 /* SearchFooter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchFooter.swift; sourceTree = "<group>"; };
 		167C4F66215910060001A8A7 /* MoviesViewController+SearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MoviesViewController+SearchController.swift"; sourceTree = "<group>"; };
 		167C4F68215941510001A8A7 /* MoviesRequestHandlerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesRequestHandlerTests.swift; sourceTree = "<group>"; };
+		167C4F6A2159542C0001A8A7 /* MoviesViewController+UITableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MoviesViewController+UITableView.swift"; sourceTree = "<group>"; };
+		167C4F6C215A34540001A8A7 /* MoviesListViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesListViewModelProtocol.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,12 +116,12 @@
 		161C4E70214E8735003EB5A3 /* MovieDBDiscovery */ = {
 			isa = PBXGroup;
 			children = (
+				161C4E71214E8735003EB5A3 /* AppDelegate.swift */,
+				161C4E75214E8735003EB5A3 /* Main.storyboard */,
 				167C4F512156541E0001A8A7 /* Model */,
 				167C4F50215653E80001A8A7 /* ViewModel */,
 				167C4F4B2154FBBE0001A8A7 /* service */,
 				161C4E9C214EEE93003EB5A3 /* View */,
-				161C4E71214E8735003EB5A3 /* AppDelegate.swift */,
-				161C4E75214E8735003EB5A3 /* Main.storyboard */,
 				161C4E7B214E8736003EB5A3 /* Assets.xcassets */,
 				161C4E7D214E8736003EB5A3 /* LaunchScreen.storyboard */,
 				161C4E80214E8736003EB5A3 /* Info.plist */,
@@ -143,10 +147,11 @@
 		161C4E9C214EEE93003EB5A3 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				167C4F6421590ECE0001A8A7 /* SearchFooter.swift */,
 				161C4E9D214EEEB0003EB5A3 /* MovieCell.swift */,
 				161C4E73214E8735003EB5A3 /* MoviesViewController.swift */,
 				167C4F66215910060001A8A7 /* MoviesViewController+SearchController.swift */,
+				167C4F6A2159542C0001A8A7 /* MoviesViewController+UITableView.swift */,
+				167C4F6421590ECE0001A8A7 /* SearchFooter.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -174,6 +179,7 @@
 			children = (
 				167C4F52215654380001A8A7 /* MoviesListViewModel.swift */,
 				167C4F572157BB550001A8A7 /* MovieViewModel.swift */,
+				167C4F6C215A34540001A8A7 /* MoviesListViewModelProtocol.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -322,7 +328,9 @@
 				167C4F582157BB550001A8A7 /* MovieViewModel.swift in Sources */,
 				167C4F53215654380001A8A7 /* MoviesListViewModel.swift in Sources */,
 				161C4E72214E8735003EB5A3 /* AppDelegate.swift in Sources */,
+				167C4F6D215A34540001A8A7 /* MoviesListViewModelProtocol.swift in Sources */,
 				167C4F4F215507610001A8A7 /* MoviesRequestHandler.swift in Sources */,
+				167C4F6B2159542C0001A8A7 /* MoviesViewController+UITableView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,29 +8,26 @@
 
 import Foundation
 
-protocol MoviesListViewModelProtocol {
-    func loadMoviesList()
-    func movieAtIndex(index: Int)-> Movie?
-    var moviesCount: Int { get }
-    var searchText: String? { get set }
-}
-
-protocol MoviesViewModelDelegate {
-    func isLoading(loading: Bool)
-    func moviesLoaded()
-    func loadingMoviesFailed(error: Error)
+enum MovieListType {
+    case popular
+    case searchResults
 }
 
 class MoviesListViewModel: MoviesListViewModelProtocol {
-
-    private var moviesList: [Movie]?
+    private var moviesList: [Movie]? = []
     private var service: MoviesRequestHandlerProtocol
     private var delegate: MoviesViewModelDelegate?
+    private var nextPage: Int = 1
+    private var totalPages: Int = 0
+    private var movieListType: MovieListType = .popular {
+        didSet {
+            resetList()
+        }
+    }
 
     init(service: MoviesRequestHandlerProtocol, delegate: MoviesViewModelDelegate?) {
         self.service = service
         self.delegate = delegate
-        self.loadMoviesList()
     }
 
     var moviesCount: Int {
@@ -43,41 +40,67 @@ class MoviesListViewModel: MoviesListViewModelProtocol {
                 print("empty string, won't execute search.")
                 return
             }
-            self.searchMovie(with: searchText!)
+            movieListType = .searchResults
+            searchMovie(with: searchText!)
         }
     }
 
     var isLoading: Bool = false {
         didSet {
-            self.delegate?.isLoading(loading: isLoading)
+            delegate?.isLoading(loading: isLoading)
         }
     }
 
-    func movieAtIndex(index: Int) -> Movie? {
+    func movie(at index: Int) -> Movie? {
         return moviesList?[index] ?? nil
     }
 
-    func loadMoviesList() {
-        isLoading = true
-        service.getPopularMovies(){ [weak self] moviesList, error in
-            guard error == nil else {
-                self?.delegate?.loadingMoviesFailed(error: error!)
-                return
-            }
-            guard let moviesList = moviesList else {
-                print("Empty movies list is returned, nothing to show.")
-                return
-            }
-            self?.moviesList = moviesList
-            self?.delegate?.moviesLoaded()
-            return
-        }
-        isLoading = false
+    func cancelSearch() {
+        movieListType = .popular
+        loadPopularMoviesList()
     }
 
-    func searchMovie(with title: String) {
+    func resetList() {
+        moviesList?.removeAll()
+        nextPage = 1
+    }
+
+    func refresh() {
+        // Check if currently loading a list, then do nothing
+        if !isLoading {
+            isLoading = true
+            resetList()
+            loadMoviesList()
+        }
+    }
+
+    func loadNextPage() {
+        /// if we have more pages to retieve.
+        if nextPage <= totalPages {
+            /// Check if currently loading a list, then do nothing.
+            if !isLoading {
+                isLoading = true
+                loadMoviesList()
+            }
+        }
+    }
+
+    private func loadMoviesList() {
+        switch movieListType {
+        case .popular:
+            loadPopularMoviesList()
+        case .searchResults:
+            if searchText != nil && !(searchText!.isEmpty) {
+                searchMovie(with: searchText!)
+            }
+        }
+    }
+
+    func loadPopularMoviesList() {
         isLoading = true
-        service.searchMoviesByTitle(title: title) { [weak self] moviesList, error in
+        service.getPopularMovies(page: nextPage){ [weak self] moviesList, totalPages, error in
+            self?.isLoading = false
+
             guard error == nil else {
                 self?.delegate?.loadingMoviesFailed(error: error!)
                 return
@@ -86,10 +109,33 @@ class MoviesListViewModel: MoviesListViewModelProtocol {
                 print("Empty movies list is returned, nothing to show.")
                 return
             }
-            self?.moviesList = moviesList
-            self?.delegate?.moviesLoaded()
+            self?.moviesList?.append(contentsOf: moviesList)
+            self?.delegate?.moviesLoadedSuccessfully()
+            self?.nextPage += 1
+            self?.totalPages = totalPages
             return
         }
-        isLoading = false
+    }
+
+    private func searchMovie(with title: String) {
+        isLoading = true
+        service.searchMoviesByTitle(title: title, page: nextPage) { [weak self] moviesList,
+            totalPages, error in
+            self?.isLoading = false
+
+            guard error == nil else {
+                self?.delegate?.loadingMoviesFailed(error: error!)
+                return
+            }
+            guard let moviesList = moviesList else {
+                print("Empty movies list is returned, nothing to show.")
+                return
+            }
+            self?.moviesList?.append(contentsOf: moviesList)
+            self?.delegate?.moviesLoadedSuccessfully()
+            self?.nextPage += 1
+            self?.totalPages = totalPages
+            return
+        }
     }
 }

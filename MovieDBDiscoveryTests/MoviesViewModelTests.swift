@@ -37,26 +37,62 @@ class MoviesViewModelTests: XCTestCase {
 
 
     func testMoviesViewModelTestCallsDelegateOnSuccess() {
-        moviesViewModel.loadMoviesList()
+        moviesViewModel.loadPopularMoviesList()
         XCTAssertTrue(viewModelDelegateMock.moviesLoadedWasCalled)
     }
 
     func testMoviesViewModelTestFillsMoviesListCorrectly() {
-        moviesViewModel.loadMoviesList()
+        moviesViewModel.loadPopularMoviesList()
         XCTAssertEqual(moviesViewModel.moviesCount, 1)
-        XCTAssertEqual(moviesViewModel.movieAtIndex(index: 0)!, movieMock)
+        XCTAssertEqual(moviesViewModel.movie(at: 0)!, movieMock)
     }
 
     func testMoviesViewModelTestSearch() {
-        moviesViewModel.searchMovie(with: "xxx")
+        moviesViewModel.searchText = "xxx"
         XCTAssertEqual(moviesViewModel.moviesCount, 2)
-        XCTAssertEqual(moviesViewModel.movieAtIndex(index: 0)!, movieMock)
+        XCTAssertEqual(moviesViewModel.movie(at: 0)!, movieMock)
     }
 
     func testSetWhiteSpaceSearchTextDoesntExecuteSearch(){
+        let countBefore = moviesViewModel.moviesCount
         moviesViewModel.searchText = "   "
-        XCTAssertEqual(moviesViewModel.moviesCount, 0)
+        XCTAssertEqual(moviesViewModel.moviesCount, countBefore)
     }
 
+    func testResetList(){
+        moviesViewModel.loadPopularMoviesList()
+        let countBefore = moviesViewModel.moviesCount
+        moviesViewModel.resetList()
+        let countAfter = moviesViewModel.moviesCount
+        XCTAssertNotEqual(countAfter, countBefore)
+        XCTAssertEqual(countAfter, 0)
+    }
+
+    func testRefresh() {
+        moviesViewModel.loadPopularMoviesList()
+        var countBefore = moviesViewModel.moviesCount
+        moviesViewModel.refresh()
+        var countAfter = moviesViewModel.moviesCount
+        XCTAssertEqual(countAfter, countBefore)
+
+        moviesViewModel.searchText = "xxx"
+        countBefore = moviesViewModel.moviesCount
+        moviesViewModel.refresh()
+        countAfter = moviesViewModel.moviesCount
+        XCTAssertEqual(countAfter, countBefore)
+    }
+
+    func testCancelSearch(){
+        moviesViewModel.searchText = "xxx"
+        let countBefore = moviesViewModel.moviesCount
+        moviesViewModel.cancelSearch()
+        let countAfter = moviesViewModel.moviesCount
+        XCTAssertNotEqual(countAfter, countBefore)
+    }
+
+    func testIsLoadingCallsDelegate(){
+        moviesViewModel.isLoading = true
+        XCTAssertTrue(viewModelDelegateMock.isLoadingCalled)
+    }
 }
 
