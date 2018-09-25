@@ -16,7 +16,7 @@ extension MoviesViewController: UITableViewDataSource{
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! MovieCell
-        guard let movie = viewModel.movieAtIndex(index: indexPath.row) else {
+        guard let movie = viewModel.movie(at: indexPath.row) else {
             preconditionFailure("The item is not found at the requested index")
         }
         let movieVM = MovieViewModel(movie: movie)

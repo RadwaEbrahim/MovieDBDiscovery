@@ -39,7 +39,7 @@ class MoviesViewModelDelegateMock: MoviesViewModelDelegate {
     var moviesLoadedWasCalled = false
     var loadingMoviesFailedWasCalled = false
 
-    func moviesLoaded() {
+    func moviesLoadedSuccessfully() {
         moviesLoadedWasCalled = true
     }
 

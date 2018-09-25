@@ -13,21 +13,6 @@ enum MovieListType {
     case searchResults
 }
 
-protocol MoviesListViewModelProtocol {
-    func loadMoviesList()
-    func movieAtIndex(index: Int)-> Movie?
-    func cancelSearch()
-    func refresh()
-    var moviesCount: Int { get }
-    var searchText: String? { get set }
-}
-
-protocol MoviesViewModelDelegate {
-    func isLoading(loading: Bool)
-    func moviesLoaded()
-    func loadingMoviesFailed(error: Error)
-}
-
 class MoviesListViewModel: MoviesListViewModelProtocol {
     private var moviesList: [Movie]? = []
     private var service: MoviesRequestHandlerProtocol
@@ -55,17 +40,17 @@ class MoviesListViewModel: MoviesListViewModelProtocol {
                 return
             }
             movieListType = .searchResults
-            self.searchMovie(with: searchText!)
+            searchMovie(with: searchText!)
         }
     }
 
     var isLoading: Bool = false {
         didSet {
-            self.delegate?.isLoading(loading: isLoading)
+            delegate?.isLoading(loading: isLoading)
         }
     }
 
-    func movieAtIndex(index: Int) -> Movie? {
+    func movie(at index: Int) -> Movie? {
         return moviesList?[index] ?? nil
     }
 
@@ -109,7 +94,7 @@ class MoviesListViewModel: MoviesListViewModelProtocol {
                 return
             }
             self?.moviesList?.append(contentsOf: moviesList)
-            self?.delegate?.moviesLoaded()
+            self?.delegate?.moviesLoadedSuccessfully()
             self?.page += 1
             return
         }
@@ -129,7 +114,7 @@ class MoviesListViewModel: MoviesListViewModelProtocol {
                 return
             }
             self?.moviesList?.append(contentsOf: moviesList)
-            self?.delegate?.moviesLoaded()
+            self?.delegate?.moviesLoadedSuccessfully()
             self?.page += 1
             return
         }

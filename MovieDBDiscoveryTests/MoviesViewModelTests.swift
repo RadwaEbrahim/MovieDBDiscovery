@@ -44,13 +44,13 @@ class MoviesViewModelTests: XCTestCase {
     func testMoviesViewModelTestFillsMoviesListCorrectly() {
         moviesViewModel.loadMoviesList()
         XCTAssertEqual(moviesViewModel.moviesCount, 1)
-        XCTAssertEqual(moviesViewModel.movieAtIndex(index: 0)!, movieMock)
+        XCTAssertEqual(moviesViewModel.movie(at: 0)!, movieMock)
     }
 
     func testMoviesViewModelTestSearch() {
         moviesViewModel.searchText = "xxx"
         XCTAssertEqual(moviesViewModel.moviesCount, 2)
-        XCTAssertEqual(moviesViewModel.movieAtIndex(index: 0)!, movieMock)
+        XCTAssertEqual(moviesViewModel.movie(at: 0)!, movieMock)
     }
 
     func testSetWhiteSpaceSearchTextDoesntExecuteSearch(){

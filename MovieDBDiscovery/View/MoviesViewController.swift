@@ -24,9 +24,9 @@ class MoviesViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        self.configureSearchController()
-        self.tableViewSetup()
-        self.loadingIndicator.startAnimating()
+        configureSearchController()
+        tableViewSetup()
+        loadingIndicator.startAnimating()
     }
 
     @objc func handleRefresh(_ sender: Any) {
@@ -48,17 +48,17 @@ class MoviesViewController: UIViewController {
     }
 
     func tableViewSetup() {
-        self.tableView.rowHeight = UITableView.automaticDimension
-        self.tableView.refreshControl = refreshControl
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.refreshControl = refreshControl
         refreshControl.addTarget(self, action: #selector(self.handleRefresh(_:)), for: .valueChanged)
     }
 }
 
 extension MoviesViewController: MoviesViewModelDelegate {
-    func moviesLoaded() {
+    func moviesLoadedSuccessfully() {
         tableView.reloadData()
         refreshControl.endRefreshing()
-        self.loadingIndicator.stopAnimating()
+        loadingIndicator.stopAnimating()
     }
 
     func loadingMoviesFailed(error: Error) {
@@ -67,14 +67,14 @@ extension MoviesViewController: MoviesViewModelDelegate {
                                            preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Ok", style: .default))
         present(alert, animated: false)
-        self.loadingIndicator.stopAnimating()
+        loadingIndicator.stopAnimating()
     }
 
     func isLoading(loading: Bool){
         if loading {
-            self.loadingIndicator?.startAnimating()
+            loadingIndicator?.startAnimating()
         } else {
-            self.loadingIndicator?.stopAnimating()
+            loadingIndicator?.stopAnimating()
         }
     }
 }
