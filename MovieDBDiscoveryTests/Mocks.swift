@@ -22,16 +22,20 @@ internal class MoviesRequestHandlerMock: MoviesRequestHandlerProtocol {
         self.session = session
     }
 
-    func getPopularMovies(completion: @escaping MoviesListCompletionHandler) {
+    func getPopularMovies(page: Int, completion: @escaping MoviesListCompletionHandler) {
         completion([movieMock], nil)
     }
 
-    func searchMoviesByTitle(title: String, completion: @escaping MoviesListCompletionHandler) {
+    func searchMoviesByTitle(title: String, page: Int,
+                             completion: @escaping MoviesListCompletionHandler) {
         completion([movieMock, movieMock], nil)
     }
 }
 
 class MoviesViewModelDelegateMock: MoviesViewModelDelegate {
+    func isLoading(loading: Bool) {
+    }
+
     var moviesLoadedWasCalled = false
     var loadingMoviesFailedWasCalled = false
 

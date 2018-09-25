@@ -8,9 +8,16 @@
 
 import Foundation
 
+enum MovieListType {
+    case popular
+    case searchResults
+}
+
 protocol MoviesListViewModelProtocol {
     func loadMoviesList()
     func movieAtIndex(index: Int)-> Movie?
+    func cancelSearch()
+    func refresh()
     var moviesCount: Int { get }
     var searchText: String? { get set }
 }
@@ -22,15 +29,20 @@ protocol MoviesViewModelDelegate {
 }
 
 class MoviesListViewModel: MoviesListViewModelProtocol {
-
-    private var moviesList: [Movie]?
+    private var moviesList: [Movie]? = []
     private var service: MoviesRequestHandlerProtocol
     private var delegate: MoviesViewModelDelegate?
+    private var page: Int = 1
+    private var movieListType: MovieListType = .popular {
+        didSet {
+            page = 1
+            self.moviesList?.removeAll()
+        }
+    }
 
     init(service: MoviesRequestHandlerProtocol, delegate: MoviesViewModelDelegate?) {
         self.service = service
         self.delegate = delegate
-        self.loadMoviesList()
     }
 
     var moviesCount: Int {
@@ -43,6 +55,7 @@ class MoviesListViewModel: MoviesListViewModelProtocol {
                 print("empty string, won't execute search.")
                 return
             }
+            resetList()
             self.searchMovie(with: searchText!)
         }
     }
@@ -57,9 +70,38 @@ class MoviesListViewModel: MoviesListViewModelProtocol {
         return moviesList?[index] ?? nil
     }
 
+    func cancelSearch() {
+        resetList()
+        movieListType = .popular
+        loadMoviesList()
+    }
+
+    func resetList() {
+        moviesList?.removeAll()
+        page = 1
+    }
+
+    func refresh() {
+        if !isLoading {
+            isLoading = true
+            resetList()
+
+            switch movieListType {
+            case .popular:
+                loadMoviesList()
+            case .searchResults:
+                if searchText != nil && !(searchText!.isEmpty) {
+                    searchMovie(with: searchText!)
+                }
+            }
+        }
+    }
+
     func loadMoviesList() {
         isLoading = true
-        service.getPopularMovies(){ [weak self] moviesList, error in
+        service.getPopularMovies(page: page){ [weak self] moviesList, error in
+            self?.isLoading = false
+
             guard error == nil else {
                 self?.delegate?.loadingMoviesFailed(error: error!)
                 return
@@ -68,16 +110,18 @@ class MoviesListViewModel: MoviesListViewModelProtocol {
                 print("Empty movies list is returned, nothing to show.")
                 return
             }
-            self?.moviesList = moviesList
+            self?.moviesList?.append(contentsOf: moviesList)
             self?.delegate?.moviesLoaded()
+            self?.page += 1
             return
         }
-        isLoading = false
     }
 
     func searchMovie(with title: String) {
         isLoading = true
-        service.searchMoviesByTitle(title: title) { [weak self] moviesList, error in
+        service.searchMoviesByTitle(title: title, page: page) { [weak self] moviesList, error in
+            self?.isLoading = false
+
             guard error == nil else {
                 self?.delegate?.loadingMoviesFailed(error: error!)
                 return
@@ -86,10 +130,10 @@ class MoviesListViewModel: MoviesListViewModelProtocol {
                 print("Empty movies list is returned, nothing to show.")
                 return
             }
-            self?.moviesList = moviesList
+            self?.moviesList?.append(contentsOf: moviesList)
             self?.delegate?.moviesLoaded()
+            self?.page += 1
             return
         }
-        isLoading = false
     }
 }

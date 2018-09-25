@@ -19,7 +19,7 @@ class MoviesRequestHandlerTests: XCTestCase {
 
     func testRequestHandlerGetPopularMovies() {
         let handler = MoviesRequestHandler(session: APISessionMock())
-        handler.getPopularMovies() { json, error in
+        handler.getPopularMovies(page: 0) { json, error in
             XCTAssertNil(error)
             XCTAssertNotNil(json)
         }
@@ -28,7 +28,7 @@ class MoviesRequestHandlerTests: XCTestCase {
     func testRequestHandlerSearchMovies() {
         let handler = MoviesRequestHandler(session: APISessionMock())
 
-        handler.searchMoviesByTitle(title: "xxx") { movies, error in
+        handler.searchMoviesByTitle(title: "xxx", page: 0) { movies, error in
             XCTAssertNil(error)
             XCTAssertNotNil(movies)
         }

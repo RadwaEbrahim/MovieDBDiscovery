@@ -11,8 +11,8 @@ import Foundation
 typealias MoviesListCompletionHandler = ([Movie]?, Error?) -> Void
 
 protocol MoviesRequestHandlerProtocol {
-    func getPopularMovies(completion: @escaping MoviesListCompletionHandler)
-    func searchMoviesByTitle(title: String, completion: @escaping MoviesListCompletionHandler) 
+    func getPopularMovies(page: Int, completion: @escaping MoviesListCompletionHandler)
+    func searchMoviesByTitle(title: String, page: Int, completion: @escaping MoviesListCompletionHandler)
     var session: APISessionProtocol { get }
 }
 
@@ -23,8 +23,8 @@ class MoviesRequestHandler: MoviesRequestHandlerProtocol {
         self.session = session
     }
 
-    func getPopularMovies(completion: @escaping MoviesListCompletionHandler){
-        self.session.getRequest(endpoint: APIEndpoint.popularMovies.toURL()){ json, error in
+    func getPopularMovies(page: Int, completion: @escaping MoviesListCompletionHandler){
+        self.session.getRequest(endpoint: APIEndpoint.popularMovies.toURL(page)){ json, error in
 
             guard error == nil else {
                 completion(nil, error)
@@ -42,8 +42,8 @@ class MoviesRequestHandler: MoviesRequestHandlerProtocol {
         }
     }
 
-    func searchMoviesByTitle(title: String, completion: @escaping MoviesListCompletionHandler) {
-        let endpoint = APIEndpoint.searchMovies.toURL(title)
+    func searchMoviesByTitle(title: String, page: Int, completion: @escaping MoviesListCompletionHandler) {
+        let endpoint = APIEndpoint.searchMovies.toURL(title, page)
         self.session.getRequest(endpoint: endpoint){ json, error in
 
             guard error == nil else {

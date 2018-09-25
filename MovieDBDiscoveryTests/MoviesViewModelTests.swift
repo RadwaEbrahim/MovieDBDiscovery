@@ -54,8 +54,9 @@ class MoviesViewModelTests: XCTestCase {
     }
 
     func testSetWhiteSpaceSearchTextDoesntExecuteSearch(){
+        let beforeCount = moviesViewModel.moviesCount
         moviesViewModel.searchText = "   "
-        XCTAssertEqual(moviesViewModel.moviesCount, 0)
+        XCTAssertEqual(moviesViewModel.moviesCount, beforeCount)
     }
 
 }

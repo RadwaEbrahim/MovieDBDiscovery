@@ -13,14 +13,24 @@ class MoviesViewController: UIViewController {
     @IBOutlet var loadingIndicator: UIActivityIndicatorView!
     @IBOutlet var searchFooter: SearchFooter!
 
-    var viewModel: MoviesListViewModelProtocol!
     let searchController = UISearchController(searchResultsController: nil)
+    let refreshControl = UIRefreshControl()
+    var viewModel: MoviesListViewModelProtocol!
 
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        viewModel.loadMoviesList()
+    }
 
     override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         self.configureSearchController()
         self.tableViewSetup()
         self.loadingIndicator.startAnimating()
+    }
+
+    @objc func handleRefresh(_ sender: Any) {
+        viewModel.refresh()
     }
 
     func configureSearchController() {
@@ -39,35 +49,15 @@ class MoviesViewController: UIViewController {
 
     func tableViewSetup() {
         self.tableView.rowHeight = UITableView.automaticDimension
-    }
-
-}
-
-extension MoviesViewController: UITableViewDataSource{
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if isFiltering() {
-            searchFooter.setIsFilteringToShow(filteredItemCount: 0, of: 1)
-            return viewModel.moviesCount
-        }
-
-        searchFooter.setNotFiltering()
-        return viewModel.moviesCount
-    }
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! MovieCell
-        guard let movie = viewModel.movieAtIndex(index: indexPath.row) else {
-            preconditionFailure("The item is not found at the requested index")
-        }
-        let movieVM = MovieViewModel(movie: movie)
-        cell.configure(with: movieVM)
-        return cell
+        self.tableView.refreshControl = refreshControl
+        refreshControl.addTarget(self, action: #selector(self.handleRefresh(_:)), for: .valueChanged)
     }
 }
 
 extension MoviesViewController: MoviesViewModelDelegate {
     func moviesLoaded() {
         tableView.reloadData()
+        refreshControl.endRefreshing()
         self.loadingIndicator.stopAnimating()
     }
 
@@ -76,7 +66,7 @@ extension MoviesViewController: MoviesViewModelDelegate {
                                            message: error.localizedDescription,
                                            preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Ok", style: .default))
-        self.present(alert, animated: false)
+        present(alert, animated: false)
         self.loadingIndicator.stopAnimating()
     }
 
