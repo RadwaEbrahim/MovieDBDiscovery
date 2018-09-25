@@ -11,7 +11,7 @@ import XCTest
 internal class APISessionMock: APISessionProtocol {
 
     func getRequest(endpoint: URL, completion: @escaping DataCompletionBlock) {
-            completion (["results": [movieJson]], nil)
+        completion (["results": [movieJson], "total_pages": 2], nil)
     }
 }
 
@@ -23,19 +23,18 @@ internal class MoviesRequestHandlerMock: MoviesRequestHandlerProtocol {
     }
 
     func getPopularMovies(page: Int, completion: @escaping MoviesListCompletionHandler) {
-        completion([movieMock], nil)
+        completion([movieMock], 2, nil)
     }
 
     func searchMoviesByTitle(title: String, page: Int,
                              completion: @escaping MoviesListCompletionHandler) {
-        completion([movieMock, movieMock], nil)
+        completion([movieMock, movieMock], 2, nil)
     }
 }
 
 class MoviesViewModelDelegateMock: MoviesViewModelDelegate {
-    func isLoading(loading: Bool) {
-    }
 
+    var isLoadingCalled = false
     var moviesLoadedWasCalled = false
     var loadingMoviesFailedWasCalled = false
 
@@ -45,5 +44,9 @@ class MoviesViewModelDelegateMock: MoviesViewModelDelegate {
 
     func loadingMoviesFailed(error: Error){
         loadingMoviesFailedWasCalled = true
+    }
+
+    func isLoading(loading: Bool) {
+        isLoadingCalled = true
     }
 }

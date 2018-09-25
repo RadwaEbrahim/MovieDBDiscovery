@@ -147,11 +147,11 @@
 		161C4E9C214EEE93003EB5A3 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				167C4F6421590ECE0001A8A7 /* SearchFooter.swift */,
 				161C4E9D214EEEB0003EB5A3 /* MovieCell.swift */,
 				161C4E73214E8735003EB5A3 /* MoviesViewController.swift */,
 				167C4F66215910060001A8A7 /* MoviesViewController+SearchController.swift */,
 				167C4F6A2159542C0001A8A7 /* MoviesViewController+UITableView.swift */,
+				167C4F6421590ECE0001A8A7 /* SearchFooter.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";

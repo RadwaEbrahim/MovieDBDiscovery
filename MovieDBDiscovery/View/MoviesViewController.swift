@@ -19,7 +19,7 @@ class MoviesViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewModel.loadMoviesList()
+        viewModel.loadPopularMoviesList()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -49,6 +49,7 @@ class MoviesViewController: UIViewController {
 
     func tableViewSetup() {
         tableView.rowHeight = UITableView.automaticDimension
+        tableView.prefetchDataSource = self
         tableView.refreshControl = refreshControl
         refreshControl.addTarget(self, action: #selector(self.handleRefresh(_:)), for: .valueChanged)
     }

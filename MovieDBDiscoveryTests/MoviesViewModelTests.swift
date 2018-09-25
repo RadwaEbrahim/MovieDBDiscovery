@@ -37,12 +37,12 @@ class MoviesViewModelTests: XCTestCase {
 
 
     func testMoviesViewModelTestCallsDelegateOnSuccess() {
-        moviesViewModel.loadMoviesList()
+        moviesViewModel.loadPopularMoviesList()
         XCTAssertTrue(viewModelDelegateMock.moviesLoadedWasCalled)
     }
 
     func testMoviesViewModelTestFillsMoviesListCorrectly() {
-        moviesViewModel.loadMoviesList()
+        moviesViewModel.loadPopularMoviesList()
         XCTAssertEqual(moviesViewModel.moviesCount, 1)
         XCTAssertEqual(moviesViewModel.movie(at: 0)!, movieMock)
     }
@@ -60,7 +60,7 @@ class MoviesViewModelTests: XCTestCase {
     }
 
     func testResetList(){
-        moviesViewModel.loadMoviesList()
+        moviesViewModel.loadPopularMoviesList()
         let countBefore = moviesViewModel.moviesCount
         moviesViewModel.resetList()
         let countAfter = moviesViewModel.moviesCount
@@ -69,7 +69,7 @@ class MoviesViewModelTests: XCTestCase {
     }
 
     func testRefresh() {
-        moviesViewModel.loadMoviesList()
+        moviesViewModel.loadPopularMoviesList()
         var countBefore = moviesViewModel.moviesCount
         moviesViewModel.refresh()
         var countAfter = moviesViewModel.moviesCount
@@ -88,6 +88,11 @@ class MoviesViewModelTests: XCTestCase {
         moviesViewModel.cancelSearch()
         let countAfter = moviesViewModel.moviesCount
         XCTAssertNotEqual(countAfter, countBefore)
+    }
+
+    func testIsLoadingCallsDelegate(){
+        moviesViewModel.isLoading = true
+        XCTAssertTrue(viewModelDelegateMock.isLoadingCalled)
     }
 }
 

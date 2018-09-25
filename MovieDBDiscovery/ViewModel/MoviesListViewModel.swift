@@ -17,7 +17,8 @@ class MoviesListViewModel: MoviesListViewModelProtocol {
     private var moviesList: [Movie]? = []
     private var service: MoviesRequestHandlerProtocol
     private var delegate: MoviesViewModelDelegate?
-    private var page: Int = 1
+    private var nextPage: Int = 1
+    private var totalPages: Int = 0
     private var movieListType: MovieListType = .popular {
         didSet {
             resetList()
@@ -56,33 +57,48 @@ class MoviesListViewModel: MoviesListViewModelProtocol {
 
     func cancelSearch() {
         movieListType = .popular
-        loadMoviesList()
+        loadPopularMoviesList()
     }
 
     func resetList() {
         moviesList?.removeAll()
-        page = 1
+        nextPage = 1
     }
 
     func refresh() {
+        // Check if currently loading a list, then do nothing
         if !isLoading {
             isLoading = true
             resetList()
+            loadMoviesList()
+        }
+    }
 
-            switch movieListType {
-            case .popular:
+    func loadNextPage() {
+        /// if we have more pages to retieve.
+        if nextPage <= totalPages {
+            /// Check if currently loading a list, then do nothing.
+            if !isLoading {
+                isLoading = true
                 loadMoviesList()
-            case .searchResults:
-                if searchText != nil && !(searchText!.isEmpty) {
-                    searchMovie(with: searchText!)
-                }
             }
         }
     }
 
-    func loadMoviesList() {
+    private func loadMoviesList() {
+        switch movieListType {
+        case .popular:
+            loadPopularMoviesList()
+        case .searchResults:
+            if searchText != nil && !(searchText!.isEmpty) {
+                searchMovie(with: searchText!)
+            }
+        }
+    }
+
+    func loadPopularMoviesList() {
         isLoading = true
-        service.getPopularMovies(page: page){ [weak self] moviesList, error in
+        service.getPopularMovies(page: nextPage){ [weak self] moviesList, totalPages, error in
             self?.isLoading = false
 
             guard error == nil else {
@@ -95,14 +111,16 @@ class MoviesListViewModel: MoviesListViewModelProtocol {
             }
             self?.moviesList?.append(contentsOf: moviesList)
             self?.delegate?.moviesLoadedSuccessfully()
-            self?.page += 1
+            self?.nextPage += 1
+            self?.totalPages = totalPages
             return
         }
     }
 
     private func searchMovie(with title: String) {
         isLoading = true
-        service.searchMoviesByTitle(title: title, page: page) { [weak self] moviesList, error in
+        service.searchMoviesByTitle(title: title, page: nextPage) { [weak self] moviesList,
+            totalPages, error in
             self?.isLoading = false
 
             guard error == nil else {
@@ -115,7 +133,8 @@ class MoviesListViewModel: MoviesListViewModelProtocol {
             }
             self?.moviesList?.append(contentsOf: moviesList)
             self?.delegate?.moviesLoadedSuccessfully()
-            self?.page += 1
+            self?.nextPage += 1
+            self?.totalPages = totalPages
             return
         }
     }

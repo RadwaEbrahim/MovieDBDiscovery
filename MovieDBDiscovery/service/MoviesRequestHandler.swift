@@ -8,7 +8,7 @@
 
 import Foundation
 
-typealias MoviesListCompletionHandler = ([Movie]?, Error?) -> Void
+typealias MoviesListCompletionHandler = ([Movie]?, Int, Error?) -> Void
 
 protocol MoviesRequestHandlerProtocol {
     func getPopularMovies(page: Int, completion: @escaping MoviesListCompletionHandler)
@@ -24,20 +24,22 @@ class MoviesRequestHandler: MoviesRequestHandlerProtocol {
     }
 
     func getPopularMovies(page: Int, completion: @escaping MoviesListCompletionHandler){
+        print("url \(APIEndpoint.popularMovies.toURL(page))")
         self.session.getRequest(endpoint: APIEndpoint.popularMovies.toURL(page)){ json, error in
 
             guard error == nil else {
-                completion(nil, error)
+                completion(nil, 0, error)
                 return
             }
 
             guard let json = json as? [String: Any],
-                let results = json["results"] as? [[String: Any]] else {
-                    completion(nil, nil)
+                let results = json["results"] as? [[String: Any]],
+                let totalsPages = json["total_pages"] as? Int else {
+                    completion(nil, 0, nil)
                     return
             }
             let moviesList = results.compactMap { Movie(from: $0) }
-            completion(moviesList, nil)
+            completion(moviesList, totalsPages, nil)
             //TODO: Read/write from DB, and return array of model objects
         }
     }
@@ -47,17 +49,18 @@ class MoviesRequestHandler: MoviesRequestHandlerProtocol {
         self.session.getRequest(endpoint: endpoint){ json, error in
 
             guard error == nil else {
-                completion(nil, error)
+                completion(nil, 0, error)
                 return
             }
 
             guard let json = json as? [String: Any],
-                let results = json["results"] as? [[String: Any]] else {
-                    completion(nil, nil)
+                let results = json["results"] as? [[String: Any]],
+                let totalsPages = json["total_pages"] as? Int else {
+                    completion(nil, 0, nil)
                     return
             }
             let moviesList = results.compactMap { Movie(from: $0) }
-            completion(moviesList, nil)
+            completion(moviesList, totalsPages, nil)
             //TODO: Read/write from DB, and return array of model objects
         }
     }
