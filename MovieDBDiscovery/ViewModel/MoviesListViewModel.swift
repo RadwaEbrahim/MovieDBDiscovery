@@ -35,8 +35,7 @@ class MoviesListViewModel: MoviesListViewModelProtocol {
     private var page: Int = 1
     private var movieListType: MovieListType = .popular {
         didSet {
-            page = 1
-            self.moviesList?.removeAll()
+            resetList()
         }
     }
 
@@ -55,7 +54,7 @@ class MoviesListViewModel: MoviesListViewModelProtocol {
                 print("empty string, won't execute search.")
                 return
             }
-            resetList()
+            movieListType = .searchResults
             self.searchMovie(with: searchText!)
         }
     }
@@ -71,7 +70,6 @@ class MoviesListViewModel: MoviesListViewModelProtocol {
     }
 
     func cancelSearch() {
-        resetList()
         movieListType = .popular
         loadMoviesList()
     }
@@ -117,7 +115,7 @@ class MoviesListViewModel: MoviesListViewModelProtocol {
         }
     }
 
-    func searchMovie(with title: String) {
+    private func searchMovie(with title: String) {
         isLoading = true
         service.searchMoviesByTitle(title: title, page: page) { [weak self] moviesList, error in
             self?.isLoading = false

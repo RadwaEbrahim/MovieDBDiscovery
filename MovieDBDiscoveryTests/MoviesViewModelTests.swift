@@ -48,16 +48,46 @@ class MoviesViewModelTests: XCTestCase {
     }
 
     func testMoviesViewModelTestSearch() {
-        moviesViewModel.searchMovie(with: "xxx")
+        moviesViewModel.searchText = "xxx"
         XCTAssertEqual(moviesViewModel.moviesCount, 2)
         XCTAssertEqual(moviesViewModel.movieAtIndex(index: 0)!, movieMock)
     }
 
     func testSetWhiteSpaceSearchTextDoesntExecuteSearch(){
-        let beforeCount = moviesViewModel.moviesCount
+        let countBefore = moviesViewModel.moviesCount
         moviesViewModel.searchText = "   "
-        XCTAssertEqual(moviesViewModel.moviesCount, beforeCount)
+        XCTAssertEqual(moviesViewModel.moviesCount, countBefore)
     }
 
+    func testResetList(){
+        moviesViewModel.loadMoviesList()
+        let countBefore = moviesViewModel.moviesCount
+        moviesViewModel.resetList()
+        let countAfter = moviesViewModel.moviesCount
+        XCTAssertNotEqual(countAfter, countBefore)
+        XCTAssertEqual(countAfter, 0)
+    }
+
+    func testRefresh() {
+        moviesViewModel.loadMoviesList()
+        var countBefore = moviesViewModel.moviesCount
+        moviesViewModel.refresh()
+        var countAfter = moviesViewModel.moviesCount
+        XCTAssertEqual(countAfter, countBefore)
+
+        moviesViewModel.searchText = "xxx"
+        countBefore = moviesViewModel.moviesCount
+        moviesViewModel.refresh()
+        countAfter = moviesViewModel.moviesCount
+        XCTAssertEqual(countAfter, countBefore)
+    }
+
+    func testCancelSearch(){
+        moviesViewModel.searchText = "xxx"
+        let countBefore = moviesViewModel.moviesCount
+        moviesViewModel.cancelSearch()
+        let countAfter = moviesViewModel.moviesCount
+        XCTAssertNotEqual(countAfter, countBefore)
+    }
 }
 
