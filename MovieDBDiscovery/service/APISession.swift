@@ -1,4 +1,5 @@
 //
+import Alamofire
 //  APISession.swift
 //  MovieDBDiscovery
 //
@@ -7,7 +8,6 @@
 //
 
 import Foundation
-import Alamofire
 
 typealias DataCompletionBlock = (Any?, Error?) -> Void
 
@@ -17,45 +17,46 @@ enum APIEndpoint: String {
     case searchMovies = "search/movie?query=%@&page=%d"
 
     var baseURL: URL {
-        return URL(string:"https://api.themoviedb.org/3/")! //force unwrap is it's a programatic issue if this was nil
+        return URL(string: "https://api.themoviedb.org/3/")! // force unwrap is it's a programatic issue if this was nil
     }
 
     public func toURL(_ arguments: CVarArg...) -> URL {
-        let pathString = String(format: self.rawValue, arguments: arguments)
+        let pathString = String(format: rawValue, arguments: arguments)
         guard let pathStringEncoded = pathString.addingPercentEncoding(
             withAllowedCharacters: .urlFragmentAllowed),
             let url = URL(string: pathStringEncoded, relativeTo: self.baseURL) else {
-                fatalError("Unable to construct a service URL for \(pathString)")
+            fatalError("Unable to construct a service URL for \(pathString)")
         }
         return url
     }
 }
 
+/// A protocol provides API Generic requests
 protocol APISessionProtocol {
     func getRequest(endpoint: URL, completion: @escaping DataCompletionBlock)
 }
 
 public class APISession: APISessionProtocol {
-
     func getRequest(endpoint: URL, completion: @escaping DataCompletionBlock) {
         Alamofire.request(endpoint,
                           method: .get,
-                          parameters:[
-                            "language":"en-US",
-                            "api_key": "xxx"]) // TODO: to be replaced with the real key
+                          parameters: [
+                              "language": "en-US",
+                              "api_key": "c5c6611eb0f8ded2a4e5d85f33e73e76",
+        ]) // TODO: to be replaced with the real key
             .validate()
             .responseJSON { response in
                 // check for errors, and if the data isn't nil
-                guard let json  = response.result.value,
+                guard let json = response.result.value,
                     response.result.error == nil else {
-                        let error = response.result.error
-                        // got an error in getting the data, need to handle it
-                        print("error calling GET on \(endpoint) with error: \(String(describing: error))")
-                        completion(nil, error)
-                        return
+                    let error = response.result.error
+                    // got an error in getting the data, need to handle it
+                    print("error calling GET on \(endpoint) with error: \(String(describing: error))")
+                    completion(nil, error)
+                    return
                 }
 
                 completion(json, nil)
-        }
+            }
     }
 }

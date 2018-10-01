@@ -1,4 +1,5 @@
 //
+@testable import MovieDBDiscovery
 //  MoviesViewModelTests.swift
 //  MoviesViewModelTests
 //
@@ -7,34 +8,32 @@
 //
 
 import XCTest
-@testable import MovieDBDiscovery
 
 class MoviesViewModelTests: XCTestCase {
     var requestHandler: MoviesRequestHandlerProtocol!
     var viewModelDelegateMock: MoviesViewModelDelegateMock!
-    var moviesViewModel:MoviesListViewModel!
+    var moviesViewModel: MoviesListViewModel!
 
     override func setUp() {
         super.setUp()
-        self.requestHandler = MoviesRequestHandlerMock()
-        self.viewModelDelegateMock = MoviesViewModelDelegateMock()
-        self.moviesViewModel = MoviesListViewModel(service: self.requestHandler,
-                                                  delegate: self.viewModelDelegateMock)
+        requestHandler = MoviesRequestHandlerMock()
+        viewModelDelegateMock = MoviesViewModelDelegateMock()
+        moviesViewModel = MoviesListViewModel(service: requestHandler,
+                                              delegate: viewModelDelegateMock)
     }
-    
+
     override func tearDown() {
-        self.requestHandler = nil
-        self.viewModelDelegateMock = nil
-        self.moviesViewModel = nil
+        requestHandler = nil
+        viewModelDelegateMock = nil
+        moviesViewModel = nil
         super.tearDown()
     }
 
     func testMoviesViewModelInit() {
-        let moviesViewModel = MoviesListViewModel(service: self.requestHandler,
-                                                   delegate: self.viewModelDelegateMock)
+        let moviesViewModel = MoviesListViewModel(service: requestHandler,
+                                                  delegate: viewModelDelegateMock)
         XCTAssertNotNil(moviesViewModel)
     }
-
 
     func testMoviesViewModelTestCallsDelegateOnSuccess() {
         moviesViewModel.loadPopularMoviesList()
@@ -53,13 +52,13 @@ class MoviesViewModelTests: XCTestCase {
         XCTAssertEqual(moviesViewModel.movie(at: 0)!, movieMock)
     }
 
-    func testSetWhiteSpaceSearchTextDoesntExecuteSearch(){
+    func testSetWhiteSpaceSearchTextDoesntExecuteSearch() {
         let countBefore = moviesViewModel.moviesCount
         moviesViewModel.searchText = "   "
         XCTAssertEqual(moviesViewModel.moviesCount, countBefore)
     }
 
-    func testResetList(){
+    func testResetList() {
         moviesViewModel.loadPopularMoviesList()
         let countBefore = moviesViewModel.moviesCount
         moviesViewModel.resetList()
@@ -82,7 +81,7 @@ class MoviesViewModelTests: XCTestCase {
         XCTAssertEqual(countAfter, countBefore)
     }
 
-    func testCancelSearch(){
+    func testCancelSearch() {
         moviesViewModel.searchText = "xxx"
         let countBefore = moviesViewModel.moviesCount
         moviesViewModel.cancelSearch()
@@ -90,9 +89,8 @@ class MoviesViewModelTests: XCTestCase {
         XCTAssertNotEqual(countAfter, countBefore)
     }
 
-    func testIsLoadingCallsDelegate(){
+    func testIsLoadingCallsDelegate() {
         moviesViewModel.isLoading = true
         XCTAssertTrue(viewModelDelegateMock.isLoadingCalled)
     }
 }
-

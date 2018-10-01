@@ -8,10 +8,8 @@
 
 import UIKit
 
-
 extension MoviesViewController: UITableViewDataSource {
-
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
         return viewModel.moviesCount
     }
 
@@ -27,11 +25,10 @@ extension MoviesViewController: UITableViewDataSource {
 }
 
 extension MoviesViewController: UITableViewDataSourcePrefetching {
-
-    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
+    func tableView(_: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
         guard let index = indexPaths.last?.row,
             index >= viewModel.moviesCount - 5 else {
-                return
+            return
         }
         viewModel.loadNextPage()
     }

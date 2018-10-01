@@ -69,7 +69,7 @@
                                                         <constraint firstAttribute="height" constant="44" id="Clf-a1-Znf"/>
                                                         <constraint firstAttribute="width" secondItem="JJT-2b-xlw" secondAttribute="height" multiplier="44:44" id="y6y-NH-rdn"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>

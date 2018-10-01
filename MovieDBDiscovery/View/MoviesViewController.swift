@@ -29,7 +29,7 @@ class MoviesViewController: UIViewController {
         loadingIndicator.startAnimating()
     }
 
-    @objc func handleRefresh(_ sender: Any) {
+    @objc func handleRefresh(_: Any) {
         viewModel.refresh()
     }
 
@@ -51,7 +51,7 @@ class MoviesViewController: UIViewController {
         tableView.rowHeight = UITableView.automaticDimension
         tableView.prefetchDataSource = self
         tableView.refreshControl = refreshControl
-        refreshControl.addTarget(self, action: #selector(self.handleRefresh(_:)), for: .valueChanged)
+        refreshControl.addTarget(self, action: #selector(handleRefresh(_:)), for: .valueChanged)
     }
 }
 
@@ -63,15 +63,15 @@ extension MoviesViewController: MoviesViewModelDelegate {
     }
 
     func loadingMoviesFailed(error: Error) {
-        let alert = UIAlertController.init(title: "We are sorry!",
-                                           message: error.localizedDescription,
-                                           preferredStyle: .alert)
+        let alert = UIAlertController(title: "We are sorry!",
+                                      message: error.localizedDescription,
+                                      preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Ok", style: .default))
         present(alert, animated: false)
         loadingIndicator.stopAnimating()
     }
 
-    func isLoading(loading: Bool){
+    func isLoading(loading: Bool) {
         if loading {
             loadingIndicator?.startAnimating()
         } else {

@@ -1,4 +1,5 @@
 //
+@testable import MovieDBDiscovery
 //  ModelTests.swift
 //  MovieDBDiscoveryTests
 //
@@ -7,10 +8,8 @@
 //
 
 import XCTest
-@testable import MovieDBDiscovery
 
 class ModelTests: XCTestCase {
-
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
@@ -20,7 +19,7 @@ class ModelTests: XCTestCase {
     }
 
     func testMovieInit() {
-        let movie = Movie(from: movieJson as [String : Any])
+        let movie = Movie(from: movieJson as [String: Any])
         XCTAssertNotNil(movie)
         XCTAssertEqual(movie?.popularity, nil)
         XCTAssertEqual(movie?.title, movieJson["title"] as? String)
@@ -28,7 +27,6 @@ class ModelTests: XCTestCase {
         XCTAssertEqual(movie?.releaseDate, "")
         XCTAssertNil(movie?.poster)
     }
-
 
     func testMovieViewModelInitWithMovie() {
         let movieViewModel = MovieViewModel(movie: movieMock)

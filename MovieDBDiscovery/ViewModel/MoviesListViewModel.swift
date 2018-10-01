@@ -1,4 +1,5 @@
 //
+import CoreData
 //  MoviesListViewModel.swift
 //  MovieDBDiscovery
 //
@@ -13,7 +14,7 @@ enum MovieListType {
     case searchResults
 }
 
-class MoviesListViewModel: MoviesListViewModelProtocol {
+class MoviesListViewModel: NSObject, MoviesListViewModelProtocol, NSFetchedResultsControllerDelegate {
     private var moviesList: [Movie]? = []
     private var service: MoviesRequestHandlerProtocol
     private var delegate: MoviesViewModelDelegate?
@@ -31,7 +32,7 @@ class MoviesListViewModel: MoviesListViewModelProtocol {
     }
 
     var moviesCount: Int {
-        return moviesList?.count ?? 0
+        return fetchedResultsController.fetchedObjects?.count ?? 0 // ?.count ?? 0
     }
 
     var searchText: String? {
@@ -52,7 +53,7 @@ class MoviesListViewModel: MoviesListViewModelProtocol {
     }
 
     func movie(at index: Int) -> Movie? {
-        return moviesList?[index] ?? nil
+        return fetchedResultsController.fetchedObjects?[index] ?? nil // moviesList?[index] ?? nil
     }
 
     func cancelSearch() {
@@ -98,7 +99,7 @@ class MoviesListViewModel: MoviesListViewModelProtocol {
 
     func loadPopularMoviesList() {
         isLoading = true
-        service.getPopularMovies(page: nextPage){ [weak self] moviesList, totalPages, error in
+        service.getPopularMovies(page: nextPage) { [weak self] moviesList, totalPages, error in
             self?.isLoading = false
 
             guard error == nil else {
@@ -137,5 +138,28 @@ class MoviesListViewModel: MoviesListViewModelProtocol {
             self?.totalPages = totalPages
             return
         }
+    }
+
+    lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
+        let fetchRequest = NSFetchRequest<Movie>(entityName: "Movie")
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "popularity", ascending: false)]
+
+        let controller = NSFetchedResultsController(fetchRequest: fetchRequest,
+                                                    managedObjectContext: CoreDataStack.shared.persistentContainer.viewContext,
+                                                    sectionNameKeyPath: nil, cacheName: nil)
+        controller.delegate = self
+
+        do {
+            try controller.performFetch()
+        } catch {
+            let error = error as NSError
+            fatalError("Unresolved error \(error), \(error.userInfo)")
+        }
+
+        return controller
+    }()
+
+    func controllerDidChangeContent(_: NSFetchedResultsController<NSFetchRequestResult>) {
+        delegate?.moviesLoadedSuccessfully()
     }
 }

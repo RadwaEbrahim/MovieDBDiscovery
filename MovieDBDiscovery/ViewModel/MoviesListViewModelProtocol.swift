@@ -17,7 +17,7 @@ internal protocol MoviesListViewModelProtocol {
     ///
     /// - Parameter index: Index of the movie.
     /// - Returns: Movie struct if exist, nil otherwise.
-    func movie(at index: Int)-> Movie?
+    func movie(at index: Int) -> Movie?
 
     /// Cancels the active search, hides the search results if any
     /// and shows the list of popular movies.
@@ -33,13 +33,12 @@ internal protocol MoviesListViewModelProtocol {
 
     /// Gets the count of the MoviesList for the current shown or about to show list
     var moviesCount: Int { get }
-    
+
     /// The text to use for searching movies by title
     var searchText: String? { get set }
 }
 
 internal protocol MoviesViewModelDelegate {
-
     /// Updates the current status of loading the movies list.
     ///
     /// - Parameter loading: true if is currently loading, false otherwise.

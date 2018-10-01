@@ -9,12 +9,11 @@
 import UIKit
 
 extension MoviesViewController: UISearchBarDelegate {
-
     func filterContentForSearchText(_ searchText: String) {
         viewModel.searchText = searchText
     }
 
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+    func searchBarCancelButtonClicked(_: UISearchBar) {
         viewModel.cancelSearch()
     }
 
@@ -32,4 +31,3 @@ extension MoviesViewController: UISearchResultsUpdating {
         filterContentForSearchText(searchController.searchBar.text!)
     }
 }
-

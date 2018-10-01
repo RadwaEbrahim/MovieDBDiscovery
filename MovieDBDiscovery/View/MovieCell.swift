@@ -1,4 +1,5 @@
 //
+import AlamofireImage
 //  MovieCell.swift
 //  MovieDBDiscovery
 //
@@ -8,16 +9,13 @@
 
 import Foundation
 import UIKit
-import AlamofireImage
 
 class MovieCell: UITableViewCell {
-
-    @IBOutlet weak var genre: UILabel!
-    @IBOutlet weak var date: UILabel!
-    @IBOutlet weak var score: UILabel!
-    @IBOutlet weak var title: UILabel!
-    @IBOutlet weak var poster: UIImageView!
-
+    @IBOutlet var genre: UILabel!
+    @IBOutlet var date: UILabel!
+    @IBOutlet var score: UILabel!
+    @IBOutlet var title: UILabel!
+    @IBOutlet var poster: UIImageView!
 
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -27,12 +25,12 @@ class MovieCell: UITableViewCell {
     }
 
     func configure(with movie: MovieViewModel) {
-        self.title.text = movie.title
-        self.score.text = movie.popularity
+        title.text = movie.title
+        score.text = movie.popularity
         if movie.posterURL != nil {
-            self.poster.af_setImage(withURL: movie.posterURL!)
+            poster.af_setImage(withURL: movie.posterURL!)
         }
-        self.date.text = movie.releaseDate
-        self.genre.text = movie.genre
+        date.text = movie.releaseDate
+        genre.text = movie.genre
     }
 }

@@ -1,4 +1,5 @@
 //
+@testable import MovieDBDiscovery
 //  MoviesRequestHandlerTests.swift
 //  MovieDBDiscoveryTests
 //
@@ -7,10 +8,8 @@
 //
 
 import XCTest
-@testable import MovieDBDiscovery
 
 class MoviesRequestHandlerTests: XCTestCase {
-
     func testInitRequestHandlerWithAPISession() {
         let handler = MoviesRequestHandler(session: APISessionMock())
         XCTAssertNotNil(handler)
@@ -35,5 +34,4 @@ class MoviesRequestHandlerTests: XCTestCase {
             XCTAssertEqual(count, 2)
         }
     }
-
 }
